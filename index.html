@@ -1,0 +1,4906 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>olx — Buy & Sell Anything</title>
+  <link rel="icon" type="image/png" href="https://brandlogos.net/wp-content/uploads/2022/07/olx-logo_brandlogos.net_ijizj.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Manrope:wght@500;600;700&display=swap"
+    rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box
+    }
+
+    :root {
+      --black: #0a0a0a;
+      --white: #fafaf8;
+      --gray-50: #f5f4f0;
+      --gray-100: #e8e6e0;
+      --gray-200: #c8c5bc;
+      --gray-400: #8a8780;
+      --rose: #f0c4b8;
+      --rose-dark: #c87a65;
+      --sage: #c4d4b8;
+      --sage-dark: #6a8f5a;
+      --sand: #e8dcc8;
+      --lavender: #d4c8e8;
+      --font-display: 'Manrope', 'Inter', system-ui, -apple-system, sans-serif;
+      --font-body: 'Inter', system-ui, -apple-system, sans-serif;
+      --nav-h: 64px;
+      --radius: 12px;
+      --shadow: 0 2px 20px rgba(0, 0, 0, 0.07);
+      --shadow-hover: 0 8px 40px rgba(0, 0, 0, 0.12);
+    }
+
+    html {
+      scroll-behavior: smooth
+    }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--white);
+      color: var(--black);
+      min-height: 100vh;
+      overflow-x: hidden
+    }
+
+    /* ── NAVBAR ── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: rgba(250, 250, 248, 0.95);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--gray-100);
+      height: var(--nav-h);
+      display: flex;
+      align-items: center;
+      padding: 0 5vw
+    }
+
+    .nav-inner {
+      width: 100%;
+      max-width: 1400px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      gap: 24px
+    }
+
+    .logo {
+      font-family: var(--font-display);
+      font-size: 28px;
+      font-weight: 300;
+      letter-spacing: .12em;
+      color: var(--black);
+      text-decoration: none;
+      flex-shrink: 0
+    }
+
+    .logo-img-link {
+      text-decoration: none;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center
+    }
+
+    .logo-img {
+      height: 38px;
+      width: auto;
+      object-fit: contain;
+      display: block
+    }
+
+    .logo span {
+      font-weight: 600
+    }
+
+    .search-wrap {
+      flex: 1;
+      max-width: 520px;
+      margin: 0 auto;
+      position: relative
+    }
+
+    .search-wrap input {
+      width: 100%;
+      padding: 10px 16px 10px 42px;
+      border: 1.5px solid var(--gray-100);
+      border-radius: 100px;
+      font-family: var(--font-body);
+      font-size: 14px;
+      background: var(--gray-50);
+      transition: .2s;
+      outline: none;
+      color: var(--black)
+    }
+
+    .search-wrap input:focus {
+      border-color: var(--gray-200);
+      background: var(--white)
+    }
+
+    .search-wrap svg {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--gray-400)
+    }
+
+    /* back button for mobile chat */
+    .mob-chat-back {
+      display: none;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 16px;
+      background: var(--white);
+      border-bottom: 1px solid var(--gray-100);
+      cursor: pointer;
+      font-size: 14px;
+      color: var(--gray-400);
+      flex-shrink: 0
+    }
+
+    .mob-chat-back:hover {
+      color: var(--black)
+    }
+
+    .nav-cats {
+      display: flex;
+      gap: 0;
+      position: relative
+    }
+
+    .nav-cat-btn {
+      font-family: var(--font-body);
+      font-size: 13px;
+      font-weight: 400;
+      color: var(--gray-400);
+      background: none;
+      border: none;
+      padding: 8px 14px;
+      cursor: pointer;
+      transition: .2s;
+      letter-spacing: .03em;
+      position: relative
+    }
+
+    .nav-cat-btn:hover {
+      color: var(--black)
+    }
+
+    .nav-cat-btn::after {
+      content: '';
+      position: absolute;
+      bottom: 4px;
+      left: 14px;
+      right: 14px;
+      height: 1px;
+      background: var(--black);
+      transform: scaleX(0);
+      transition: .2s
+    }
+
+    .nav-cat-btn:hover::after {
+      transform: scaleX(1)
+    }
+
+    .mega-menu {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      background: var(--white);
+      border: 1px solid var(--gray-100);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-hover);
+      padding: 20px 24px 24px;
+      display: none;
+      min-width: 520px;
+      z-index: 999;
+      pointer-events: none
+    }
+
+    .mega-menu::before {
+      content: '';
+      position: absolute;
+      top: -16px;
+      left: 0;
+      right: 0;
+      height: 16px;
+      background: transparent;
+      pointer-events: auto
+    }
+
+    .nav-cat-wrap {
+      position: relative;
+      padding-bottom: 0
+    }
+
+    .mega-menu.open {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      pointer-events: auto
+    }
+
+    .sub-item {
+      font-size: 13px;
+      color: var(--gray-400);
+      padding: 6px 8px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: .15s;
+      white-space: nowrap
+    }
+
+    .sub-item:hover {
+      color: var(--black);
+      background: var(--gray-50)
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-left: auto
+    }
+
+    .icon-btn {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      border: 1px solid var(--gray-100);
+      background: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: .2s;
+      position: relative;
+      color: var(--black)
+    }
+
+    .icon-btn:hover {
+      background: var(--gray-50);
+      border-color: var(--gray-200)
+    }
+
+    .icon-btn .badge {
+      position: absolute;
+      top: -2px;
+      right: -2px;
+      width: 16px;
+      height: 16px;
+      background: var(--black);
+      color: var(--white);
+      font-size: 9px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 500
+    }
+
+    .sell-btn {
+      padding: 10px 20px;
+      background: var(--black);
+      color: var(--white);
+      border: none;
+      border-radius: 100px;
+      font-family: var(--font-body);
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: .2s;
+      letter-spacing: .02em;
+      flex-shrink: 0
+    }
+
+    .sell-btn:hover {
+      background: #2a2a2a;
+      transform: translateY(-1px)
+    }
+
+    /* hamburger — only on small screens */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 4px
+    }
+
+    .hamburger span {
+      display: block;
+      width: 22px;
+      height: 1.5px;
+      background: var(--black);
+      transition: .3s
+    }
+
+    .hamburger.open span:nth-child(1) {
+      transform: translateY(6.5px) rotate(45deg)
+    }
+
+    .hamburger.open span:nth-child(2) {
+      opacity: 0
+    }
+
+    .hamburger.open span:nth-child(3) {
+      transform: translateY(-6.5px) rotate(-45deg)
+    }
+
+    .mob-menu {
+      display: none;
+      position: fixed;
+      inset: 0;
+      top: var(--nav-h);
+      background: var(--white);
+      z-index: 998;
+      overflow-y: auto;
+      flex-direction: column
+    }
+
+    .mob-menu.open {
+      display: flex
+    }
+
+    .mob-menu-top {
+      padding: 24px 24px 40px;
+      flex: 1
+    }
+
+    .mob-cat-item {
+      border-bottom: 1px solid var(--gray-50)
+    }
+
+    .mob-cat {
+      padding: 18px 0;
+      font-size: 22px;
+      font-family: var(--font-display);
+      font-weight: 300;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: var(--black);
+      letter-spacing: .01em;
+      user-select: none
+    }
+
+    .mob-cat-arrow {
+      font-size: 16px;
+      color: var(--gray-200);
+      transition: transform .25s;
+      display: inline-block
+    }
+
+    .mob-cat-item.expanded .mob-cat-arrow {
+      transform: rotate(90deg)
+    }
+
+    .mob-subs {
+      display: none;
+      padding: 0 0 16px 0;
+      flex-direction: column;
+      gap: 0
+    }
+
+    .mob-cat-item.expanded .mob-subs {
+      display: flex
+    }
+
+    .mob-sub {
+      font-size: 17px;
+      font-family: var(--font-body);
+      font-weight: 300;
+      color: var(--gray-400);
+      padding: 12px 16px;
+      cursor: pointer;
+      transition: .15s;
+      border-radius: 8px;
+      letter-spacing: .01em
+    }
+
+    .mob-sub:hover {
+      color: var(--black);
+      background: var(--gray-50)
+    }
+
+    .mob-menu-actions {
+      padding: 24px;
+      border-top: 1px solid var(--gray-100);
+      display: flex;
+      gap: 16px;
+      align-items: center
+    }
+
+    .mob-sell-link {
+      font-size: 19px;
+      font-family: var(--font-display);
+      font-weight: 300;
+      color: var(--black);
+      cursor: pointer;
+      flex: 1
+    }
+
+    .mob-icon-links {
+      display: flex;
+      gap: 12px
+    }
+
+    .mob-icon-link {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      border: 1px solid var(--gray-100);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: .2s;
+      color: var(--black)
+    }
+
+    .mob-icon-link:hover {
+      background: var(--gray-50)
+    }
+
+    /* ── PAGES ── */
+    .page {
+      display: none;
+      min-height: calc(100vh - var(--nav-h))
+    }
+
+    .page.active {
+      display: block
+    }
+
+    /* ── HERO — breathing room: text sits lower ── */
+    .hero {
+      position: relative;
+      height: auto;
+      min-height: 420px;
+      display: flex;
+      align-items: flex-start;
+      background: #1a1a18
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(10, 10, 8, .85) 0%, rgba(20, 20, 18, .70) 50%, rgba(10, 10, 8, .88) 100%);
+      z-index: 1
+    }
+
+    /* text lower + more breathing space at bottom */
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      padding: 5vw;
+      max-width: 1400px;
+      margin: 0 auto;
+      width: 100%;
+      padding-top: calc(var(--nav-h) + 20px);
+      padding-bottom: 80px
+    }
+
+    .hero-tag {
+      display: inline-block;
+      font-size: 11px;
+      letter-spacing: .2em;
+      color: rgba(255, 255, 255, .4);
+      text-transform: uppercase;
+      margin-bottom: 20px
+    }
+
+    .hero-h1 {
+      font-family: var(--font-display);
+      font-size: clamp(40px, 5.6vw, 78px);
+      font-weight: 600;
+      color: var(--white);
+      line-height: .96;
+      letter-spacing: -.015em;
+      margin-bottom: 28px
+    }
+
+    .hero-h1 em {
+      font-style: italic;
+      color: rgba(255, 255, 255, .55)
+    }
+
+    .hero-sub {
+      font-size: 15px;
+      color: rgba(255, 255, 255, .5);
+      margin-bottom: 48px;
+      max-width: 380px;
+      line-height: 1.7;
+      font-weight: 300
+    }
+
+    .hero-ctas {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap
+    }
+
+    .btn-primary {
+      padding: 14px 32px;
+      background: var(--white);
+      color: var(--black);
+      border: none;
+      border-radius: 100px;
+      font-family: var(--font-body);
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: .25s;
+      letter-spacing: .02em
+    }
+
+    .btn-primary:hover {
+      background: var(--gray-50);
+      transform: translateY(-2px)
+    }
+
+    .btn-outline-w {
+      padding: 14px 32px;
+      background: transparent;
+      color: var(--white);
+      border: 1px solid rgba(255, 255, 255, .25);
+      border-radius: 100px;
+      font-family: var(--font-body);
+      font-size: 14px;
+      cursor: pointer;
+      transition: .25s;
+      letter-spacing: .02em
+    }
+
+    .btn-outline-w:hover {
+      border-color: rgba(255, 255, 255, .5);
+      background: rgba(255, 255, 255, .05)
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: 40px;
+      z-index: 2;
+      margin-top: 48px;
+      padding-bottom: 0
+    }
+
+    .hero-stat span {
+      display: block;
+      font-size: 28px;
+      font-family: var(--font-display);
+      font-weight: 300;
+      color: var(--white)
+    }
+
+    .hero-stat small {
+      font-size: 11px;
+      letter-spacing: .1em;
+      color: rgba(255, 255, 255, .35);
+      text-transform: uppercase
+    }
+
+    /* ── PRODUCT GRID ── */
+    .section {
+      padding: 64px 5vw;
+      max-width: 1400px;
+      margin: 0 auto
+    }
+
+    .section-header {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      margin-bottom: 36px
+    }
+
+    .section-title {
+      font-family: var(--font-display);
+      font-size: clamp(28px, 4vw, 42px);
+      font-weight: 300;
+      letter-spacing: -.01em
+    }
+
+    .section-link {
+      font-size: 12px;
+      letter-spacing: .1em;
+      color: var(--gray-400);
+      cursor: pointer;
+      text-transform: uppercase;
+      transition: .2s
+    }
+
+    .section-link:hover {
+      color: var(--black)
+    }
+
+    .filters-bar {
+      display: flex;
+      column-gap: clamp(16px, 3vw, 40px);
+      row-gap: 10px;
+      margin-bottom: 28px;
+      flex-wrap: wrap;
+      align-items: center;
+      border-bottom: 1px solid var(--gray-100);
+      padding-bottom: 10px
+    }
+
+    .filter-chip {
+      padding: 7px 16px;
+      border: 1px solid var(--gray-100);
+      border-radius: 100px;
+      font-size: 12px;
+      font-family: var(--font-body);
+      background: none;
+      cursor: pointer;
+      transition: .2s;
+      color: var(--gray-400);
+      letter-spacing: .03em
+    }
+
+    .filters-bar .filter-chip {
+      padding: 0;
+      border: none;
+      border-radius: 0;
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: .01em;
+      line-height: 1.4;
+      position: relative
+    }
+
+    .filters-bar .filter-chip::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: -11px;
+      width: 100%;
+      height: 2px;
+      background: var(--black);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: .2s
+    }
+
+    .filters-bar .filter-chip:hover {
+      color: var(--black);
+      background: none;
+      border-color: transparent
+    }
+
+    .filters-bar .filter-chip.active {
+      color: var(--black);
+      background: none;
+      border-color: transparent
+    }
+
+    .filters-bar .filter-chip.active::after {
+      transform: scaleX(1)
+    }
+
+
+    /* ── RESPONSIVE PRODUCT GRID — cards wrap, not shrink ── */
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 24px
+    }
+
+    .product-card {
+      cursor: pointer;
+      padding: 4px;
+      border-radius: 14px;
+      transition: background .2s
+    }
+
+    .product-card:hover {
+      background: #fcfcfc
+    }
+
+    .product-img-wrap {
+      aspect-ratio: 3/4;
+      background: var(--gray-50);
+      border-radius: var(--radius);
+      overflow: hidden;
+      position: relative;
+      margin-bottom: 12px
+    }
+
+    .product-img-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: .4s;
+      display: block
+    }
+
+    .product-img-wrap:hover img {
+      transform: scale(1.04)
+    }
+
+    .product-card-actions {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      opacity: 0;
+      transform: translateX(8px);
+      transition: .25s
+    }
+
+    .product-img-wrap:hover .product-card-actions {
+      opacity: 1;
+      transform: translateX(0)
+    }
+
+    .card-action-btn {
+      width: 34px;
+      height: 34px;
+      background: var(--white);
+      border: none;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, .12);
+      transition: .2s
+    }
+
+    .card-action-btn:hover {
+      transform: scale(1.1)
+    }
+
+    .card-action-btn.fav-active svg {
+      color: #e05050;
+      fill: #e05050
+    }
+
+    .product-badge {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      font-size: 10px;
+      letter-spacing: .08em;
+      padding: 4px 8px;
+      border-radius: 100px;
+      font-weight: 500
+    }
+
+    .badge-new {
+      background: var(--sage);
+      color: var(--sage-dark)
+    }
+
+    .badge-trending {
+      background: var(--rose);
+      color: var(--rose-dark)
+    }
+
+    .badge-sold {
+      background: var(--gray-100);
+      color: var(--gray-400)
+    }
+
+    .product-info {
+      padding: 2px 4px 8px
+    }
+
+    .product-title {
+      font-size: 14px;
+      font-weight: 400;
+      color: var(--black);
+      margin-bottom: 8px;
+      line-height: 1.4
+    }
+
+    .product-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between
+    }
+
+    .product-price {
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--black)
+    }
+
+    .product-cond {
+      font-size: 11px;
+      color: var(--gray-400);
+      letter-spacing: .05em
+    }
+
+    .product-extra {
+      margin-top: 8px;
+      display: grid;
+      gap: 5px;
+      font-size: 11px;
+      color: var(--gray-400);
+      letter-spacing: .03em
+    }
+
+    .product-extra span {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px
+    }
+
+    .hero,
+    .cats-strip {
+      display: none !important
+    }
+
+    .load-more-wrap {
+      text-align: center;
+      margin-top: 48px
+    }
+
+    .load-more-btn {
+      padding: 14px 40px;
+      border: 1.5px solid var(--gray-200);
+      border-radius: 100px;
+      background: none;
+      font-family: var(--font-body);
+      font-size: 13px;
+      cursor: pointer;
+      transition: .25s;
+      color: var(--gray-400);
+      letter-spacing: .05em
+    }
+
+    .load-more-btn:hover {
+      border-color: var(--black);
+      color: var(--black)
+    }
+
+    .load-more-btn:disabled {
+      opacity: .4;
+      cursor: not-allowed
+    }
+
+    /* ── CATEGORIES STRIP ── */
+    .cats-strip {
+      padding: 0 5vw 48px;
+      max-width: 1400px;
+      margin: 0 auto
+    }
+
+    .cats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px
+    }
+
+    .cat-card {
+      aspect-ratio: 3/2;
+      border-radius: var(--radius);
+      overflow: hidden;
+      position: relative;
+      cursor: pointer
+    }
+
+    .cat-card-bg {
+      width: 100%;
+      height: 100%;
+      background-size: cover;
+      background-position: center;
+      transition: .4s
+    }
+
+    .cat-card:hover .cat-card-bg {
+      transform: scale(1.04)
+    }
+
+    .cat-card-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(0, 0, 0, .6) 0%, transparent 60%)
+    }
+
+    .cat-card-label {
+      position: absolute;
+      bottom: 16px;
+      left: 16px
+    }
+
+    .cat-card-label h3 {
+      font-family: var(--font-display);
+      font-size: 22px;
+      font-weight: 300;
+      color: var(--white);
+      letter-spacing: .02em
+    }
+
+    .cat-card-label span {
+      font-size: 11px;
+      color: rgba(255, 255, 255, .6);
+      letter-spacing: .08em
+    }
+
+    /* ── HOW IT WORKS ── */
+    .how-section {
+      background: var(--gray-50);
+      padding: 80px 5vw;
+      margin-bottom: 0
+    }
+
+    .how-inner {
+      max-width: 1400px;
+      margin: 0 auto
+    }
+
+    .how-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 48px;
+      margin-top: 48px
+    }
+
+    .how-step {
+      text-align: center
+    }
+
+    .how-num {
+      font-family: var(--font-display);
+      font-size: 64px;
+      font-weight: 300;
+      color: var(--gray-100);
+      line-height: 1;
+      margin-bottom: 16px
+    }
+
+    .how-step h3 {
+      font-family: var(--font-display);
+      font-size: 20px;
+      font-weight: 400;
+      margin-bottom: 8px
+    }
+
+    .how-step p {
+      font-size: 13px;
+      color: var(--gray-400);
+      line-height: 1.7
+    }
+
+    /* ── PRODUCT DETAIL PAGE ── */
+    .pd-wrap {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 48px 5vw
+    }
+
+    .pd-breadcrumb {
+      font-size: 12px;
+      color: var(--gray-400);
+      margin-bottom: 32px;
+      cursor: pointer;
+      letter-spacing: .03em
+    }
+
+    .pd-breadcrumb:hover {
+      color: var(--black)
+    }
+
+    .pd-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 64px;
+      align-items: start
+    }
+
+    .pd-imgs {
+      display: flex;
+      flex-direction: column;
+      gap: 12px
+    }
+
+    .pd-main-img {
+      aspect-ratio: 3/4;
+      border-radius: var(--radius);
+      overflow: hidden;
+      background: var(--gray-50)
+    }
+
+    .pd-main-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover
+    }
+
+    .pd-thumbs {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px
+    }
+
+    .pd-thumb {
+      aspect-ratio: 1;
+      border-radius: 8px;
+      overflow: hidden;
+      cursor: pointer;
+      border: 2px solid transparent;
+      transition: .2s;
+      background: var(--gray-50)
+    }
+
+    .pd-thumb.active,
+    .pd-thumb:hover {
+      border-color: var(--black)
+    }
+
+    .pd-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover
+    }
+
+    .pd-info {
+      position: sticky;
+      top: calc(var(--nav-h) + 24px)
+    }
+
+    .pd-category {
+      font-size: 11px;
+      letter-spacing: .12em;
+      color: var(--gray-400);
+      text-transform: uppercase;
+      margin-bottom: 12px
+    }
+
+    .pd-title {
+      font-family: var(--font-display);
+      font-size: clamp(28px, 3vw, 42px);
+      font-weight: 300;
+      line-height: 1.1;
+      margin-bottom: 20px
+    }
+
+    .pd-price {
+      font-size: 28px;
+      font-weight: 500;
+      margin-bottom: 8px
+    }
+
+    .pd-orig-price {
+      font-size: 14px;
+      color: var(--gray-400);
+      text-decoration: line-through;
+      margin-left: 8px;
+      font-weight: 300
+    }
+
+    .pd-cond-badge {
+      display: inline-block;
+      padding: 4px 12px;
+      background: var(--sage);
+      color: var(--sage-dark);
+      border-radius: 100px;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: .06em;
+      margin-bottom: 24px
+    }
+
+    .pd-divider {
+      height: 1px;
+      background: var(--gray-100);
+      margin: 24px 0
+    }
+
+    .pd-desc {
+      font-size: 14px;
+      color: var(--gray-400);
+      line-height: 1.75;
+      margin-bottom: 24px
+    }
+
+    .pd-seller {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 16px;
+      background: var(--gray-50);
+      border-radius: var(--radius);
+      margin-bottom: 24px
+    }
+
+    .seller-avatar {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: var(--sand);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-display);
+      font-size: 16px;
+      font-weight: 400;
+      flex-shrink: 0
+    }
+
+    .seller-name {
+      font-size: 14px;
+      font-weight: 500;
+      margin-bottom: 2px
+    }
+
+    .seller-stats {
+      font-size: 12px;
+      color: var(--gray-400)
+    }
+
+    .stars {
+      color: #f0a030;
+      font-size: 13px;
+      letter-spacing: 1px
+    }
+
+    .pd-btns {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 20px
+    }
+
+    .btn-buy {
+      padding: 16px;
+      background: var(--black);
+      color: var(--white);
+      border: none;
+      border-radius: 100px;
+      font-family: var(--font-body);
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: .2s;
+      letter-spacing: .03em
+    }
+
+    .btn-buy:hover {
+      background: #2a2a2a
+    }
+
+    .btn-chat {
+      padding: 16px;
+      background: none;
+      color: var(--black);
+      border: 1.5px solid var(--gray-200);
+      border-radius: 100px;
+      font-family: var(--font-body);
+      font-size: 14px;
+      cursor: pointer;
+      transition: .2s;
+      letter-spacing: .03em
+    }
+
+    .btn-chat:hover {
+      border-color: var(--black)
+    }
+
+    .btn-fav {
+      padding: 14px;
+      background: none;
+      border: 1.5px solid var(--gray-200);
+      border-radius: 100px;
+      font-family: var(--font-body);
+      font-size: 13px;
+      cursor: pointer;
+      transition: .2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px
+    }
+
+    .btn-fav:hover,
+    .btn-fav.active {
+      background: var(--rose);
+      border-color: var(--rose-dark);
+      color: var(--rose-dark)
+    }
+
+    .pd-tags {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap
+    }
+
+    .pd-tag {
+      font-size: 11px;
+      padding: 5px 10px;
+      background: var(--gray-50);
+      border: 1px solid var(--gray-100);
+      border-radius: 100px;
+      color: var(--gray-400)
+    }
+
+    /* ── CHECKOUT ── */
+    .checkout-wrap {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 48px 5vw
+    }
+
+    .checkout-steps {
+      display: flex;
+      gap: 0;
+      margin-bottom: 48px;
+      border-bottom: 1px solid var(--gray-100)
+    }
+
+    .checkout-step {
+      padding: 12px 24px;
+      font-size: 13px;
+      color: var(--gray-400);
+      position: relative;
+      letter-spacing: .03em
+    }
+
+    .checkout-step.active {
+      color: var(--black);
+      font-weight: 500
+    }
+
+    .checkout-step.active::after {
+      content: '';
+      position: absolute;
+      bottom: -1px;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: var(--black)
+    }
+
+    .checkout-step.done {
+      color: var(--gray-200)
+    }
+
+    .co-grid {
+      display: grid;
+      grid-template-columns: 1fr 340px;
+      gap: 40px;
+      align-items: start
+    }
+
+    .co-section-title {
+      font-family: var(--font-display);
+      font-size: 22px;
+      font-weight: 300;
+      margin-bottom: 20px
+    }
+
+    .co-card {
+      background: var(--white);
+      border: 1px solid var(--gray-100);
+      border-radius: var(--radius);
+      padding: 20px;
+      margin-bottom: 16px
+    }
+
+    .addr-option {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 14px;
+      border: 1px solid var(--gray-100);
+      border-radius: var(--radius);
+      margin-bottom: 8px;
+      cursor: pointer;
+      transition: .2s
+    }
+
+    .addr-option.selected {
+      border-color: var(--black);
+      background: var(--gray-50)
+    }
+
+    .addr-option input[type=radio] {
+      accent-color: var(--black);
+      margin-top: 2px
+    }
+
+    .addr-label {
+      font-size: 13px
+    }
+
+    .addr-name {
+      font-weight: 500;
+      margin-bottom: 2px
+    }
+
+    .addr-text {
+      color: var(--gray-400);
+      font-size: 12px;
+      line-height: 1.5
+    }
+
+    .pay-option {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px;
+      border: 1px solid var(--gray-100);
+      border-radius: var(--radius);
+      margin-bottom: 8px;
+      cursor: pointer;
+      transition: .2s
+    }
+
+    .pay-option.selected {
+      border-color: var(--black);
+      background: var(--gray-50)
+    }
+
+    .pay-option input[type=radio] {
+      accent-color: var(--black)
+    }
+
+    .pay-label {
+      font-size: 13px;
+      font-weight: 400
+    }
+
+    .pay-sub {
+      font-size: 11px;
+      color: var(--gray-400)
+    }
+
+    .order-summary {
+      background: var(--gray-50);
+      border-radius: var(--radius);
+      padding: 20px;
+      position: sticky;
+      top: calc(var(--nav-h) + 24px)
+    }
+
+    .order-item {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 16px
+    }
+
+    .order-img {
+      width: 70px;
+      height: 90px;
+      border-radius: 8px;
+      object-fit: cover;
+      background: var(--gray-100)
+    }
+
+    .order-item-info {
+      flex: 1
+    }
+
+    .order-item-title {
+      font-size: 13px;
+      font-weight: 500;
+      margin-bottom: 4px
+    }
+
+    .order-item-sub {
+      font-size: 12px;
+      color: var(--gray-400)
+    }
+
+    .order-item-price {
+      font-size: 14px;
+      font-weight: 500;
+      margin-top: 6px
+    }
+
+    .order-line {
+      display: flex;
+      justify-content: space-between;
+      font-size: 13px;
+      margin-bottom: 8px;
+      color: var(--gray-400)
+    }
+
+    .order-total {
+      display: flex;
+      justify-content: space-between;
+      font-size: 15px;
+      font-weight: 500;
+      margin-top: 12px;
+      padding-top: 12px;
+      border-top: 1px solid var(--gray-200)
+    }
+
+    .upi-input {
+      display: none;
+      margin-top: 12px
+    }
+
+    .upi-input input,
+    .card-inputs input,
+    .card-inputs select {
+      width: 100%;
+      padding: 10px 14px;
+      border: 1px solid var(--gray-100);
+      border-radius: 8px;
+      font-family: var(--font-body);
+      font-size: 13px;
+      margin-bottom: 8px;
+      outline: none;
+      transition: .2s
+    }
+
+    .upi-input input:focus,
+    .card-inputs input:focus {
+      border-color: var(--gray-200)
+    }
+
+    .card-inputs {
+      display: none;
+      margin-top: 12px
+    }
+
+    .card-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px
+    }
+
+    /* ── SELL PAGE ── */
+    .sell-wrap {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 48px 5vw
+    }
+
+    .sell-title {
+      font-family: var(--font-display);
+      font-size: clamp(32px, 4vw, 48px);
+      font-weight: 300;
+      margin-bottom: 8px
+    }
+
+    .sell-sub {
+      font-size: 14px;
+      color: var(--gray-400);
+      margin-bottom: 40px
+    }
+
+    .form-group {
+      margin-bottom: 20px
+    }
+
+    .form-label {
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--gray-400);
+      margin-bottom: 8px;
+      display: block
+    }
+
+    .form-input,
+    .form-select,
+    .form-textarea {
+      width: 100%;
+      padding: 12px 16px;
+      border: 1.5px solid var(--gray-100);
+      border-radius: var(--radius);
+      font-family: var(--font-body);
+      font-size: 14px;
+      outline: none;
+      transition: .2s;
+      background: var(--white);
+      color: var(--black)
+    }
+
+    .form-input:focus,
+    .form-select:focus,
+    .form-textarea:focus {
+      border-color: var(--gray-200)
+    }
+
+    .form-textarea {
+      resize: vertical;
+      min-height: 120px
+    }
+
+    .img-upload {
+      border: 2px dashed var(--gray-200);
+      border-radius: var(--radius);
+      padding: 40px;
+      text-align: center;
+      cursor: pointer;
+      transition: .2s
+    }
+
+    .img-upload:hover {
+      border-color: var(--gray-400)
+    }
+
+    .img-upload-icon {
+      font-size: 32px;
+      margin-bottom: 12px;
+      color: var(--gray-200)
+    }
+
+    .img-upload p {
+      font-size: 13px;
+      color: var(--gray-400)
+    }
+
+    .preview-imgs {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 12px
+    }
+
+    .preview-img {
+      width: 80px;
+      height: 80px;
+      border-radius: 8px;
+      object-fit: cover;
+      border: 1px solid var(--gray-100)
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px
+    }
+
+    .sell-submit {
+      width: 100%;
+      padding: 16px;
+      background: var(--black);
+      color: var(--white);
+      border: none;
+      border-radius: 100px;
+      font-family: var(--font-body);
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: .2s;
+      margin-top: 8px;
+      letter-spacing: .03em
+    }
+
+    .sell-submit:hover {
+      background: #2a2a2a
+    }
+
+    .form-error {
+      color: #c04040;
+      font-size: 12px;
+      margin-top: 4px
+    }
+
+    /* ── PROFILE PAGE ── */
+    .profile-wrap {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 48px 5vw
+    }
+
+    .profile-header {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      margin-bottom: 48px;
+      padding-bottom: 40px;
+      border-bottom: 1px solid var(--gray-100)
+    }
+
+    .profile-avatar {
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      background: var(--sand);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-display);
+      font-size: 32px;
+      font-weight: 300;
+      flex-shrink: 0
+    }
+
+    .profile-name {
+      font-family: var(--font-display);
+      font-size: 28px;
+      font-weight: 300;
+      margin-bottom: 4px
+    }
+
+    .profile-join {
+      font-size: 13px;
+      color: var(--gray-400)
+    }
+
+    .profile-stats {
+      display: flex;
+      gap: 28px;
+      margin-top: 12px;
+      flex-wrap: wrap
+    }
+
+    .profile-stat {
+      text-align: center
+    }
+
+    .profile-stat strong {
+      display: block;
+      font-size: 18px;
+      font-weight: 500
+    }
+
+    .profile-stat span {
+      font-size: 11px;
+      color: var(--gray-400);
+      letter-spacing: .06em;
+      text-transform: uppercase
+    }
+
+    .profile-tabs {
+      display: flex;
+      gap: 0;
+      border-bottom: 1px solid var(--gray-100);
+      margin-bottom: 32px;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none
+    }
+
+    .profile-tabs::-webkit-scrollbar {
+      display: none
+    }
+
+    .profile-tab {
+      padding: 12px 20px;
+      font-size: 13px;
+      color: var(--gray-400);
+      cursor: pointer;
+      position: relative;
+      background: none;
+      border: none;
+      font-family: var(--font-body);
+      letter-spacing: .03em;
+      white-space: nowrap;
+      flex-shrink: 0
+    }
+
+    .profile-tab.active {
+      color: var(--black);
+      font-weight: 500
+    }
+
+    .profile-tab.active::after {
+      content: '';
+      position: absolute;
+      bottom: -1px;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: var(--black)
+    }
+
+    .profile-section {
+      display: none
+    }
+
+    .profile-section.active {
+      display: block
+    }
+
+    .edit-form {
+      max-width: 500px
+    }
+
+    .addr-card {
+      background: var(--gray-50);
+      border-radius: var(--radius);
+      padding: 16px;
+      margin-bottom: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start
+    }
+
+    .addr-card-info {
+      font-size: 13px
+    }
+
+    .addr-card-name {
+      font-weight: 500;
+      margin-bottom: 4px
+    }
+
+    .addr-card-text {
+      color: var(--gray-400);
+      line-height: 1.5
+    }
+
+    .addr-card-actions {
+      display: flex;
+      gap: 8px
+    }
+
+    .link-btn {
+      font-size: 12px;
+      color: var(--gray-400);
+      cursor: pointer;
+      background: none;
+      border: none;
+      font-family: var(--font-body);
+      text-decoration: underline
+    }
+
+    .link-btn:hover {
+      color: var(--black)
+    }
+
+    .add-addr-btn {
+      padding: 12px 20px;
+      border: 1.5px dashed var(--gray-200);
+      border-radius: var(--radius);
+      background: none;
+      font-family: var(--font-body);
+      font-size: 13px;
+      cursor: pointer;
+      color: var(--gray-400);
+      transition: .2s;
+      width: 100%;
+      margin-top: 4px
+    }
+
+    .add-addr-btn:hover {
+      border-color: var(--gray-400);
+      color: var(--black)
+    }
+
+    /* ── CHAT PAGE ── */
+    .chat-wrap {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 24px 5vw 0
+    }
+
+    .chat-page-title {
+      font-family: var(--font-display);
+      font-size: 28px;
+      font-weight: 300;
+      margin-bottom: 16px;
+      padding: 0
+    }
+
+    .chat-layout {
+      display: grid;
+      grid-template-columns: 320px 1fr;
+      gap: 0;
+      border: 1px solid var(--gray-100);
+      border-radius: var(--radius);
+      overflow: hidden;
+      height: calc(100vh - 160px);
+      min-height: 500px;
+      background: var(--white)
+    }
+
+    .chat-list {
+      border-right: 1px solid var(--gray-100);
+      overflow-y: auto;
+      background: var(--white);
+      display: flex;
+      flex-direction: column
+    }
+
+    .chat-list-header {
+      padding: 14px 16px 10px;
+      font-size: 11px;
+      font-weight: 600;
+      border-bottom: 1px solid var(--gray-100);
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--gray-400);
+      background: var(--white);
+      flex-shrink: 0
+    }
+
+    .chat-item {
+      padding: 12px 16px;
+      display: flex;
+      gap: 10px;
+      cursor: pointer;
+      transition: .15s;
+      border-bottom: 1px solid var(--gray-50);
+      align-items: center
+    }
+
+    .chat-item:hover {
+      background: var(--gray-50)
+    }
+
+    .chat-item.active {
+      background: #f0f0ed
+    }
+
+    .chat-item-avatar-wrap {
+      position: relative;
+      flex-shrink: 0
+    }
+
+    .chat-item-avatar {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      font-family: var(--font-display);
+      font-weight: 600;
+      flex-shrink: 0;
+      color: var(--black)
+    }
+
+    .chat-item-online-dot {
+      position: absolute;
+      bottom: 1px;
+      right: 1px;
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: #22c55e;
+      border: 2px solid var(--white)
+    }
+
+    .chat-item-info {
+      flex: 1;
+      min-width: 0
+    }
+
+    .chat-item-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 3px
+    }
+
+    .chat-item-name {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--black)
+    }
+
+    .chat-item-preview {
+      font-size: 12px;
+      color: var(--gray-400);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis
+    }
+
+    .chat-item-time {
+      font-size: 10px;
+      color: var(--gray-400);
+      white-space: nowrap
+    }
+
+    .chat-item-item-tag {
+      font-size: 10px;
+      color: var(--gray-400);
+      margin-top: 2px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      font-style: italic
+    }
+
+    .chat-main {
+      display: flex;
+      flex-direction: column;
+      background: var(--gray-50);
+      min-width: 0
+    }
+
+    .chat-header {
+      padding: 12px 20px;
+      border-bottom: 1px solid var(--gray-100);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: var(--white);
+      flex-shrink: 0
+    }
+
+    .chat-header-avatar {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      font-family: var(--font-display);
+      font-weight: 600
+    }
+
+    .chat-header-name {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--black)
+    }
+
+    .chat-header-sub {
+      font-size: 11px;
+      color: var(--gray-400);
+      margin-top: 1px
+    }
+
+    .chat-header-status {
+      font-size: 11px;
+      color: #22c55e;
+      font-weight: 500
+    }
+
+    .chat-messages {
+      flex: 1;
+      overflow-y: auto;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px
+    }
+
+    .msg-group {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      margin-bottom: 8px
+    }
+
+    .msg-group.sent-group {
+      align-items: flex-end
+    }
+
+    .msg-group.received-group {
+      align-items: flex-start
+    }
+
+    .msg {
+      max-width: 62%;
+      padding: 9px 14px;
+      border-radius: 18px;
+      font-size: 13px;
+      line-height: 1.5;
+      word-break: break-word
+    }
+
+    .msg.received {
+      background: var(--white);
+      align-self: flex-start;
+      border-bottom-left-radius: 4px;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, .06)
+    }
+
+    .msg.sent {
+      background: var(--black);
+      color: var(--white);
+      align-self: flex-end;
+      border-bottom-right-radius: 4px
+    }
+
+    .msg-time {
+      font-size: 10px;
+      color: var(--gray-400);
+      margin-top: 2px;
+      padding: 0 2px
+    }
+
+    .msg-time.right {
+      text-align: right
+    }
+
+    .chat-date-divider {
+      text-align: center;
+      font-size: 10px;
+      letter-spacing: .08em;
+      color: var(--gray-400);
+      text-transform: uppercase;
+      margin: 8px 0;
+      display: flex;
+      align-items: center;
+      gap: 8px
+    }
+
+    .chat-date-divider::before,
+    .chat-date-divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--gray-100)
+    }
+
+    .chat-input-bar {
+      padding: 10px 14px;
+      border-top: 1px solid var(--gray-100);
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      background: var(--white);
+      flex-shrink: 0
+    }
+
+    .chat-input-bar input {
+      flex: 1;
+      padding: 9px 16px;
+      border: 1px solid var(--gray-100);
+      border-radius: 100px;
+      font-family: var(--font-body);
+      font-size: 13px;
+      outline: none;
+      background: var(--gray-50);
+      transition: .2s
+    }
+
+    .chat-input-bar input:focus {
+      border-color: var(--gray-200);
+      background: var(--white)
+    }
+
+    .chat-send-btn {
+      width: 36px;
+      height: 36px;
+      background: var(--black);
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: .2s
+    }
+
+    .chat-send-btn:hover {
+      background: #2a2a2a;
+      transform: scale(1.05)
+    }
+
+    .chat-emoji-btn {
+      background: none;
+      border: none;
+      font-size: 18px;
+      cursor: pointer;
+      padding: 4px;
+      line-height: 1;
+      color: var(--gray-400)
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: #0a0a0a;
+      color: rgba(255, 255, 255, .5);
+      padding: 64px 5vw 32px;
+      margin-top: 0
+    }
+
+    .footer-inner {
+      max-width: 1400px;
+      margin: 0 auto
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 48px;
+      margin-bottom: 48px
+    }
+
+    .footer-logo {
+      font-family: var(--font-display);
+      font-size: 32px;
+      font-weight: 300;
+      color: var(--white);
+      letter-spacing: .1em;
+      margin-bottom: 12px
+    }
+
+    .footer-tagline {
+      font-size: 13px;
+      line-height: 1.7;
+      max-width: 240px
+    }
+
+    .footer-heading {
+      font-size: 11px;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, .3);
+      margin-bottom: 16px
+    }
+
+    .footer-links {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px
+    }
+
+    .footer-links li {
+      font-size: 13px;
+      cursor: pointer;
+      transition: .2s
+    }
+
+    .footer-links li:hover {
+      color: var(--white)
+    }
+
+    .footer-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 24px;
+      border-top: 1px solid rgba(255, 255, 255, .08)
+    }
+
+    .footer-copy {
+      font-size: 12px
+    }
+
+    .footer-legal {
+      display: flex;
+      gap: 20px;
+      font-size: 12px
+    }
+
+    .footer-legal span {
+      cursor: pointer;
+      transition: .2s
+    }
+
+    .footer-legal span:hover {
+      color: var(--white)
+    }
+
+    /* ── AUTH MODAL ── */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, .5);
+      z-index: 2000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      backdrop-filter: blur(4px)
+    }
+
+    .modal-overlay.open {
+      display: flex
+    }
+
+    .modal {
+      background: var(--white);
+      border-radius: 20px;
+      padding: 40px;
+      width: 100%;
+      max-width: 420px;
+      position: relative;
+      max-height: 90vh;
+      overflow-y: auto
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      border: 1px solid var(--gray-100);
+      background: none;
+      cursor: pointer;
+      font-size: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--gray-400);
+      transition: .2s
+    }
+
+    .modal-close:hover {
+      background: var(--gray-50)
+    }
+
+    .modal-title {
+      font-family: var(--font-display);
+      font-size: 28px;
+      font-weight: 300;
+      margin-bottom: 4px
+    }
+
+    .modal-sub {
+      font-size: 13px;
+      color: var(--gray-400);
+      margin-bottom: 28px
+    }
+
+    .modal-tabs {
+      display: flex;
+      gap: 0;
+      border-bottom: 1px solid var(--gray-100);
+      margin-bottom: 24px
+    }
+
+    .modal-tab {
+      padding: 10px 20px;
+      font-size: 13px;
+      color: var(--gray-400);
+      cursor: pointer;
+      position: relative;
+      background: none;
+      border: none;
+      font-family: var(--font-body)
+    }
+
+    .modal-tab.active {
+      color: var(--black);
+      font-weight: 500
+    }
+
+    .modal-tab.active::after {
+      content: '';
+      position: absolute;
+      bottom: -1px;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: var(--black)
+    }
+
+    .modal-form {
+      display: none
+    }
+
+    .modal-form.active {
+      display: block
+    }
+
+    .modal-btn {
+      width: 100%;
+      padding: 14px;
+      background: var(--black);
+      color: var(--white);
+      border: none;
+      border-radius: 100px;
+      font-family: var(--font-body);
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: .2s;
+      margin-top: 8px
+    }
+
+    .modal-btn:hover {
+      background: #2a2a2a
+    }
+
+    .modal-or {
+      text-align: center;
+      font-size: 12px;
+      color: var(--gray-400);
+      margin: 16px 0;
+      position: relative
+    }
+
+    .modal-or::before,
+    .modal-or::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      width: calc(50% - 20px);
+      height: 1px;
+      background: var(--gray-100)
+    }
+
+    .modal-or::before {
+      left: 0
+    }
+
+    .modal-or::after {
+      right: 0
+    }
+
+    /* ── TOAST ── */
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: var(--black);
+      color: var(--white);
+      padding: 12px 20px;
+      border-radius: 100px;
+      font-size: 13px;
+      z-index: 3000;
+      opacity: 0;
+      transform: translateY(8px);
+      transition: .3s;
+      pointer-events: none
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateY(0)
+    }
+
+    /* ── ORDER SUCCESS ── */
+    .order-success {
+      text-align: center;
+      padding: 80px 24px
+    }
+
+    .order-success-icon {
+      font-size: 64px;
+      margin-bottom: 24px
+    }
+
+    .order-success h2 {
+      font-family: var(--font-display);
+      font-size: 36px;
+      font-weight: 300;
+      margin-bottom: 12px
+    }
+
+    .order-success p {
+      font-size: 14px;
+      color: var(--gray-400);
+      margin-bottom: 32px
+    }
+
+    /* ── EMPTY STATE ── */
+    .empty-state {
+      text-align: center;
+      padding: 80px 24px;
+      color: var(--gray-400)
+    }
+
+    .empty-state-icon {
+      font-size: 48px;
+      margin-bottom: 16px;
+      opacity: .3
+    }
+
+    .empty-state h3 {
+      font-family: var(--font-display);
+      font-size: 24px;
+      font-weight: 300;
+      color: var(--gray-200);
+      margin-bottom: 8px
+    }
+
+    .empty-state p {
+      font-size: 13px
+    }
+
+    /* ── RESPONSIVE ── */
+    /* Large screens: hamburger hidden */
+    @media(min-width:901px) {
+      .hamburger {
+        display: none !important
+      }
+
+      .mob-menu {
+        display: none !important
+      }
+    }
+
+    /* Tablet */
+    @media(max-width:900px) {
+
+      .nav-cats,
+      .sell-btn {
+        display: none
+      }
+
+      .hamburger {
+        display: flex
+      }
+
+      .nav-actions {
+        gap: 8px
+      }
+
+      .pd-grid {
+        grid-template-columns: 1fr
+      }
+
+      .co-grid {
+        grid-template-columns: 1fr
+      }
+
+      .how-grid {
+        grid-template-columns: 1fr
+      }
+
+      .seller-page-body {
+        grid-template-columns: 1fr !important
+      }
+
+      .cats-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 12px
+      }
+
+      .cat-card {
+        aspect-ratio: 4/3
+      }
+
+      .cat-card-label h3 {
+        font-size: 20px
+      }
+
+      .footer-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 32px
+      }
+
+      .chat-layout {
+        grid-template-columns: 1fr
+      }
+
+      .chat-list {
+        display: flex
+      }
+
+      .chat-main {
+        display: none
+      }
+
+      .chat-main.mob-active {
+        display: flex
+      }
+
+      .chat-list.mob-hidden {
+        display: none
+      }
+
+      .mob-chat-back {
+        display: flex
+      }
+
+      .form-row {
+        grid-template-columns: 1fr
+      }
+
+      .product-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px
+      }
+    }
+
+    /* Medium desktop — compress gracefully */
+    @media(min-width:901px) and (max-width:1100px) {
+      .nav-inner {
+        gap: 12px
+      }
+
+      .search-wrap {
+        max-width: 340px
+      }
+
+      .nav-cat-btn {
+        padding: 8px 10px;
+        font-size: 12px
+      }
+
+      .sell-btn {
+        padding: 10px 14px;
+        font-size: 12px
+      }
+
+      .icon-btn {
+        width: 34px;
+        height: 34px
+      }
+    }
+
+    /* Mobile */
+    @media(max-width:600px) {
+      .filters-bar {
+        column-gap: 16px;
+        row-gap: 8px;
+        padding-bottom: 8px;
+        margin-bottom: 22px
+      }
+
+      .filters-bar .filter-chip {
+        font-size: 12px
+      }
+
+      .cats-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 10px
+      }
+
+      .cat-card {
+        aspect-ratio: 1/1
+      }
+
+      .cat-card-label h3 {
+        font-size: 18px
+      }
+
+      .cat-card-label span {
+        font-size: 10px
+      }
+
+      .footer-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 20px
+      }
+
+      .footer-inner {
+        padding: 32px 5vw
+      }
+
+      .footer-bottom {
+        flex-direction: column;
+        gap: 10px;
+        text-align: center
+      }
+
+      .footer-legal {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 12px
+      }
+
+      .hero {
+        min-height: 56vh;
+        align-items: center
+      }
+
+      .hero-content {
+        padding: 0 6vw
+      }
+
+      .hero-h1 {
+        font-size: clamp(40px, 11vw, 58px);
+        margin-bottom: 24px
+      }
+
+      .hero-tag {
+        display: none
+      }
+
+      .hero-sub {
+        display: none
+      }
+
+      .hero-stats {
+        display: none
+      }
+
+      .hero-ctas {
+        gap: 10px
+      }
+
+      .btn-primary,
+      .btn-outline-w {
+        padding: 13px 26px;
+        font-size: 13px
+      }
+
+      .how-section {
+        display: none
+      }
+
+      .product-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px
+      }
+
+      .product-title {
+        font-size: 13px
+      }
+
+      .product-price {
+        font-size: 14px
+      }
+
+      .product-img-wrap {
+        border-radius: 8px
+      }
+
+      .section {
+        padding: 32px 4vw
+      }
+
+      .section-title {
+        font-size: clamp(22px, 6vw, 32px)
+      }
+
+      .cats-strip {
+        padding: 0 4vw 32px
+      }
+
+      .nav-inner {
+        gap: 12px
+      }
+
+      .chat-wrap {
+        padding: 16px 4vw 0
+      }
+
+      .chat-page-title {
+        font-size: 22px;
+        margin-bottom: 12px
+      }
+
+      .chat-layout {
+        height: calc(100vh - 130px)
+      }
+
+      /* Profile mobile */
+      .profile-wrap {
+        padding: 24px 4vw
+      }
+
+      .profile-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 14px;
+        margin-bottom: 28px;
+        padding-bottom: 24px
+      }
+
+      .profile-avatar {
+        width: 68px;
+        height: 68px;
+        font-size: 24px
+      }
+
+      .profile-name {
+        font-size: 22px
+      }
+
+      .profile-stats {
+        gap: 18px
+      }
+
+      .profile-stat strong {
+        font-size: 16px
+      }
+    }
+
+    @media(max-width:360px) {
+      .product-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 8px
+      }
+
+      .btn-primary,
+      .btn-outline-w {
+        padding: 11px 18px;
+        font-size: 12px
+      }
+    }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(16px)
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0)
+      }
+    }
+
+    .fade-up {
+      animation: fadeUp .4s ease both
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg)
+      }
+    }
+
+    .spinner {
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      border: 2px solid rgba(255, 255, 255, .3);
+      border-top-color: white;
+      border-radius: 50%;
+      animation: spin .7s linear infinite;
+      vertical-align: middle;
+      margin-right: 6px
+    }
+
+    @keyframes searchPulse {
+
+      0%,
+      100% {
+        box-shadow: 0 0 0 0 rgba(10, 10, 10, .15)
+      }
+
+      50% {
+        box-shadow: 0 0 0 6px rgba(10, 10, 10, 0)
+      }
+    }
+
+    .search-active {
+      animation: searchPulse .5s ease
+    }
+
+    /* Search results header */
+    .search-results-bar {
+      display: none;
+      padding: 20px 5vw 0;
+      max-width: 1400px;
+      margin: 0 auto;
+      align-items: center;
+      gap: 12px
+    }
+
+    .search-results-bar.visible {
+      display: flex
+    }
+
+    .search-results-label {
+      font-family: var(--font-display);
+      font-size: clamp(22px, 4vw, 32px);
+      font-weight: 300;
+      flex: 1
+    }
+
+    .search-clear-btn {
+      font-size: 12px;
+      color: var(--gray-400);
+      border: 1px solid var(--gray-100);
+      border-radius: 100px;
+      padding: 7px 16px;
+      cursor: pointer;
+      background: none;
+      font-family: var(--font-body);
+      transition: .2s;
+      letter-spacing: .03em
+    }
+
+    .search-clear-btn:hover {
+      border-color: var(--black);
+      color: var(--black)
+    }
+
+    /* ── LOADING SKELETON ── */
+    .skeleton {
+      background: linear-gradient(90deg, var(--gray-50) 25%, var(--gray-100) 50%, var(--gray-50) 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.5s infinite
+    }
+
+    @keyframes shimmer {
+      to {
+        background-position: -200% 0
+      }
+    }
+
+    .skel-card .product-img-wrap {
+      background: var(--gray-100)
+    }
+
+    .skel-title,
+    .skel-price {
+      height: 14px;
+      border-radius: 4px;
+      margin-bottom: 6px
+    }
+
+    .skel-title {
+      width: 70%
+    }
+
+    .skel-price {
+      width: 40%
+    }
+
+    /* ── PRICE EVALUATOR BADGES ── */
+    .price-eval {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: .06em;
+      padding: 3px 8px;
+      border-radius: 100px;
+      margin-top: 4px;
+      text-transform: uppercase
+    }
+
+    .eval-great {
+      background: #d4edda;
+      color: #1a7a3a
+    }
+
+    .eval-good {
+      background: #fff3cd;
+      color: #8a6200
+    }
+
+    .eval-fair {
+      background: #e8e6e0;
+      color: #6a6860
+    }
+
+    .eval-high {
+      background: #fde8e8;
+      color: #c0392b
+    }
+
+    /* ── SELLER PROFILE PAGE ── */
+    .seller-page-wrap {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 48px 5vw
+    }
+
+    .seller-page-header {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      margin-bottom: 40px;
+      padding-bottom: 36px;
+      border-bottom: 1px solid var(--gray-100)
+    }
+
+    .seller-page-avatar {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      background: var(--sand);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-display);
+      font-size: 36px;
+      font-weight: 300;
+      flex-shrink: 0
+    }
+
+    .seller-page-name {
+      font-family: var(--font-display);
+      font-size: 30px;
+      font-weight: 300;
+      margin-bottom: 4px
+    }
+
+    .seller-page-meta {
+      font-size: 13px;
+      color: var(--gray-400);
+      margin-bottom: 10px
+    }
+
+    .seller-page-stats {
+      display: flex;
+      gap: 28px;
+      flex-wrap: wrap
+    }
+
+    .seller-page-stat {
+      text-align: center
+    }
+
+    .seller-page-stat strong {
+      display: block;
+      font-size: 20px;
+      font-weight: 500
+    }
+
+    .seller-page-stat span {
+      font-size: 11px;
+      color: var(--gray-400);
+      letter-spacing: .06em;
+      text-transform: uppercase
+    }
+
+    .seller-rating-bar {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 16px
+    }
+
+    .seller-big-rating {
+      font-size: 48px;
+      font-family: var(--font-display);
+      font-weight: 300;
+      line-height: 1
+    }
+
+    .seller-review-card {
+      background: var(--gray-50);
+      border-radius: var(--radius);
+      padding: 16px;
+      margin-bottom: 10px
+    }
+
+    .seller-review-top {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 6px;
+      font-size: 12px;
+      color: var(--gray-400)
+    }
+
+    .seller-review-text {
+      font-size: 13px;
+      line-height: 1.6
+    }
+
+    .seller-verified-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--sage-dark);
+      background: var(--sage);
+      padding: 3px 10px;
+      border-radius: 100px;
+      margin-bottom: 8px
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ─────────── NAVBAR ─────────── -->
+  <nav id="main-nav">
+    <div class="nav-inner">
+      <a class="logo-img-link" href="#" onclick="goHome();return false"><img src="https://brandlogos.net/wp-content/uploads/2022/07/olx-logo_brandlogos.net_ijizj.png" alt="olx"
+          class="logo-img"></a>
+      <div class="search-wrap">
+        <svg onclick="handleSearch(document.getElementById('search-input').value)" style="cursor:pointer" width="14"
+          height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <circle cx="11" cy="11" r="8" />
+          <path d="m21 21-4.35-4.35" />
+        </svg>
+        <input type="text" id="search-input" placeholder="Search…"
+          onkeydown="if(event.key==='Enter')handleSearch(this.value)">
+      </div>
+      <div class="nav-cats" id="nav-cats">
+        <div class="nav-cat-wrap" onmouseenter="openMega('electronics')" onmouseleave="closeMega('electronics')">
+          <button class="nav-cat-btn" onclick="filterCat('electronics')">Electronics</button>
+          <div class="mega-menu" id="mega-electronics" onmouseenter="keepMega('electronics')"
+            onmouseleave="closeMega('electronics')">
+            <div class="sub-item" onclick="filterCat('electronics','Mobiles')">Mobiles</div>
+            <div class="sub-item" onclick="filterCat('electronics','Laptops')">Laptops</div>
+            <div class="sub-item" onclick="filterCat('electronics','Tablets')">Tablets</div>
+            <div class="sub-item" onclick="filterCat('electronics','Gaming')">Gaming</div>
+            <div class="sub-item" onclick="filterCat('electronics','Audio')">Audio</div>
+            <div class="sub-item" onclick="filterCat('electronics','Cameras')">Cameras</div>
+          </div>
+        </div>
+        <div class="nav-cat-wrap" onmouseenter="openMega('cars')" onmouseleave="closeMega('cars')">
+          <button class="nav-cat-btn" onclick="filterCat('cars')">Cars</button>
+          <div class="mega-menu" id="mega-cars" onmouseenter="keepMega('cars')" onmouseleave="closeMega('cars')">
+            <div class="sub-item" onclick="filterCat('cars','Sedan')">Sedan</div>
+            <div class="sub-item" onclick="filterCat('cars','SUV')">SUV</div>
+            <div class="sub-item" onclick="filterCat('cars','Hatchback')">Hatchback</div>
+            <div class="sub-item" onclick="filterCat('cars','Luxury')">Luxury</div>
+            <div class="sub-item" onclick="filterCat('cars','Commercial')">Commercial</div>
+          </div>
+        </div>
+        <div class="nav-cat-wrap" onmouseenter="openMega('bikes')" onmouseleave="closeMega('bikes')">
+          <button class="nav-cat-btn" onclick="filterCat('bikes')">Bikes</button>
+          <div class="mega-menu" id="mega-bikes" onmouseenter="keepMega('bikes')" onmouseleave="closeMega('bikes')">
+            <div class="sub-item" onclick="filterCat('bikes','Motorcycles')">Motorcycles</div>
+            <div class="sub-item" onclick="filterCat('bikes','Scooters')">Scooters</div>
+            <div class="sub-item" onclick="filterCat('bikes','Electric')">Electric</div>
+            <div class="sub-item" onclick="filterCat('bikes','Sports')">Sports</div>
+          </div>
+        </div>
+        <div class="nav-cat-wrap" onmouseenter="openMega('properties')" onmouseleave="closeMega('properties')">
+          <button class="nav-cat-btn" onclick="filterCat('properties')">Properties</button>
+          <div class="mega-menu" id="mega-properties" onmouseenter="keepMega('properties')"
+            onmouseleave="closeMega('properties')">
+            <div class="sub-item" onclick="filterCat('properties','Apartments')">Apartments</div>
+            <div class="sub-item" onclick="filterCat('properties','Houses')">Houses</div>
+            <div class="sub-item" onclick="filterCat('properties','Plots')">Plots</div>
+            <div class="sub-item" onclick="filterCat('properties','Commercial Space')">Commercial Space</div>
+          </div>
+        </div>
+        <div class="nav-cat-wrap" onmouseenter="openMega('furniture')" onmouseleave="closeMega('furniture')">
+          <button class="nav-cat-btn" onclick="filterCat('furniture')">Furniture</button>
+          <div class="mega-menu" id="mega-furniture" onmouseenter="keepMega('furniture')"
+            onmouseleave="closeMega('furniture')">
+            <div class="sub-item" onclick="filterCat('furniture','Sofas')">Sofas</div>
+            <div class="sub-item" onclick="filterCat('furniture','Beds')">Beds</div>
+            <div class="sub-item" onclick="filterCat('furniture','Tables')">Tables</div>
+            <div class="sub-item" onclick="filterCat('furniture','Chairs')">Chairs</div>
+            <div class="sub-item" onclick="filterCat('furniture','Wardrobes')">Wardrobes</div>
+          </div>
+        </div>
+      </div>
+      <div class="nav-actions">
+        <button class="icon-btn" onclick="showPage('favourites')" title="Favourites">
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+            <path
+              d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+          </svg>
+          <span class="badge" id="fav-badge" style="display:none">0</span>
+        </button>
+        <button class="icon-btn" onclick="handleChatClick()" title="Messages">
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+          </svg>
+        </button>
+        <button class="icon-btn" id="profile-btn" onclick="handleProfileClick()" title="Profile">
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+            <circle cx="12" cy="7" r="4" />
+          </svg>
+        </button>
+        <button class="sell-btn" onclick="handleSellClick()">+ Sell Now</button>
+      </div>
+      <button class="hamburger" onclick="toggleMobMenu()" id="hamburger">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- MOBILE MENU -->
+  <div class="mob-menu" id="mob-menu">
+    <div class="mob-menu-top">
+      <div class="mob-cat-item" id="mob-item-electronics">
+        <div class="mob-cat" onclick="toggleMobCat('mob-item-electronics','electronics')">
+          Electronics <span class="mob-cat-arrow">›</span>
+        </div>
+        <div class="mob-subs">
+          <div class="mob-sub" onclick="filterCat('electronics','Mobiles');toggleMobMenu()">Mobiles</div>
+          <div class="mob-sub" onclick="filterCat('electronics','Laptops');toggleMobMenu()">Laptops</div>
+          <div class="mob-sub" onclick="filterCat('electronics','Gaming');toggleMobMenu()">Gaming</div>
+          <div class="mob-sub" onclick="filterCat('electronics','Audio');toggleMobMenu()">Audio</div>
+        </div>
+      </div>
+      <div class="mob-cat-item" id="mob-item-cars">
+        <div class="mob-cat" onclick="toggleMobCat('mob-item-cars','cars')">
+          Cars <span class="mob-cat-arrow">›</span>
+        </div>
+        <div class="mob-subs">
+          <div class="mob-sub" onclick="filterCat('cars','Sedan');toggleMobMenu()">Sedan</div>
+          <div class="mob-sub" onclick="filterCat('cars','SUV');toggleMobMenu()">SUV</div>
+          <div class="mob-sub" onclick="filterCat('cars','Hatchback');toggleMobMenu()">Hatchback</div>
+          <div class="mob-sub" onclick="filterCat('cars','Luxury');toggleMobMenu()">Luxury</div>
+        </div>
+      </div>
+      <div class="mob-cat-item" id="mob-item-bikes">
+        <div class="mob-cat" onclick="toggleMobCat('mob-item-bikes','bikes')">
+          Bikes <span class="mob-cat-arrow">›</span>
+        </div>
+        <div class="mob-subs">
+          <div class="mob-sub" onclick="filterCat('bikes','Motorcycles');toggleMobMenu()">Motorcycles</div>
+          <div class="mob-sub" onclick="filterCat('bikes','Scooters');toggleMobMenu()">Scooters</div>
+          <div class="mob-sub" onclick="filterCat('bikes','Electric');toggleMobMenu()">Electric</div>
+        </div>
+      </div>
+      <div class="mob-cat-item" id="mob-item-properties">
+        <div class="mob-cat" onclick="toggleMobCat('mob-item-properties','properties')">
+          Properties <span class="mob-cat-arrow">›</span>
+        </div>
+        <div class="mob-subs">
+          <div class="mob-sub" onclick="filterCat('properties','Apartments');toggleMobMenu()">Apartments</div>
+          <div class="mob-sub" onclick="filterCat('properties','Houses');toggleMobMenu()">Houses</div>
+          <div class="mob-sub" onclick="filterCat('properties','Plots');toggleMobMenu()">Plots</div>
+        </div>
+      </div>
+      <div class="mob-cat-item" id="mob-item-furniture">
+        <div class="mob-cat" onclick="toggleMobCat('mob-item-furniture','furniture')">
+          Furniture <span class="mob-cat-arrow">›</span>
+        </div>
+        <div class="mob-subs">
+          <div class="mob-sub" onclick="filterCat('furniture','Sofas');toggleMobMenu()">Sofas</div>
+          <div class="mob-sub" onclick="filterCat('furniture','Beds');toggleMobMenu()">Beds</div>
+          <div class="mob-sub" onclick="filterCat('furniture','Tables');toggleMobMenu()">Tables</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="mob-menu-actions">
+      <span class="mob-sell-link" onclick="handleSellClick();toggleMobMenu()">+ Sell Now</span>
+      <div class="mob-icon-links">
+        <div class="mob-icon-link" onclick="showPage('favourites');toggleMobMenu()" title="Saved">
+          <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+            <path
+              d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+          </svg>
+        </div>
+        <div class="mob-icon-link" onclick="handleChatClick();toggleMobMenu()" title="Messages">
+          <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+          </svg>
+        </div>
+        <div class="mob-icon-link" onclick="handleProfileClick();toggleMobMenu()" title="Profile">
+          <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+            <circle cx="12" cy="7" r="4" />
+          </svg>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─────────── HOME PAGE ─────────── -->
+  <div class="page active" id="page-home">
+    <!-- PRODUCT GRID -->
+    <div class="section" id="product-grid-section">
+      <div class="section-header">
+        <h2 class="section-title" id="grid-title">Fresh Listings</h2>
+        <div style="display:flex;align-items:center;gap:16px">
+          <span class="section-link" id="grid-count"></span>
+          <button class="search-clear-btn" id="search-clear-inline" onclick="clearSearch()" style="display:none">✕
+            Clear</button>
+        </div>
+      </div>
+      <div class="filters-bar">
+        <button class="filter-chip active" onclick="filterSort(this,'all')">All</button>
+        <button class="filter-chip" onclick="filterSort(this,'new')">New Listings</button>
+        <button class="filter-chip" onclick="filterSort(this,'trending')">Trending</button>
+
+      </div>
+      <div class="product-grid" id="product-grid"></div>
+      <div class="load-more-wrap" id="load-more-wrap"></div>
+    </div>
+
+    <!-- HOW IT WORKS -->
+    <div class="how-section">
+      <div class="how-inner">
+        <div class="section-header">
+          <h2 class="section-title">How It Works</h2>
+        </div>
+        <div class="how-grid">
+          <div class="how-step">
+            <div class="how-num">01</div>
+            <h3>Discover Listings</h3>
+            <p>Browse verified local listings across electronics, cars, bikes, properties, and furniture.</p>
+          </div>
+          <div class="how-step">
+            <div class="how-num">02</div>
+            <h3>Post In Minutes</h3>
+            <p>Add photos, pick category-specific details, set your price, and publish your listing instantly.</p>
+          </div>
+          <div class="how-step">
+            <div class="how-num">03</div>
+            <h3>Chat &amp; Close Deal</h3>
+            <p>Message buyers or sellers directly, check seller ratings, and close deals safely.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+      <div class="footer-inner">
+        <div class="footer-grid">
+          <div>
+            <div class="footer-logo"><img src="https://brandlogos.net/wp-content/uploads/2022/07/olx-logo_brandlogos.net_ijizj.png" alt="olx"
+                style="height:32px;width:auto;filter:brightness(0) invert(1);display:block;margin-bottom:12px;transform:translateY(-6px)">
+            </div>
+            <p class="footer-tagline">India's trusted peer-to-peer marketplace for buying and selling electronics, cars,
+              bikes, properties and furniture.</p>
+          </div>
+          <div>
+            <p class="footer-heading">Shop</p>
+            <ul class="footer-links">
+              <li onclick="filterCat('electronics')">Electronics</li>
+              <li onclick="filterCat('cars')">Cars</li>
+              <li onclick="filterCat('bikes')">Bikes</li>
+              <li onclick="filterCat('properties')">Properties</li>
+              <li onclick="filterCat('furniture')">Furniture</li>
+            </ul>
+          </div>
+          <div>
+            <p class="footer-heading">Sell</p>
+            <ul class="footer-links">
+              <li onclick="handleSellClick()">List an Item</li>
+              <li>Seller Guide</li>
+              <li>Pricing & Fees</li>
+              <li>Shipping Help</li>
+              <li>Seller Protection</li>
+            </ul>
+          </div>
+          <div>
+            <p class="footer-heading">Support</p>
+            <ul class="footer-links">
+              <li>Help Centre</li>
+              <li>Buyer Protection</li>
+              <li>Returns Policy</li>
+              <li>About olx</li>
+              <li>Careers</li>
+            </ul>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <span class="footer-copy">© 2026 olx Technologies Pvt. Ltd.</span>
+          <div class="footer-legal">
+            <span>Privacy Policy</span>
+            <span>Terms of Service</span>
+            <span>Cookie Policy</span>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <!-- ─────────── PRODUCT DETAIL PAGE ─────────── -->
+  <div class="page" id="page-product">
+    <div class="pd-wrap">
+      <div class="pd-breadcrumb" onclick="showPage('home')">← Back to listings</div>
+      <div class="pd-grid" id="pd-content"></div>
+      <div id="similar-section" style="margin-top:64px">
+        <div class="section-header">
+          <h2 class="section-title">You Might Also Like</h2>
+        </div>
+        <div class="product-grid" id="similar-grid"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─────────── CHECKOUT PAGE ─────────── -->
+  <div class="page" id="page-checkout">
+    <div class="checkout-wrap">
+      <h1 style="font-family:var(--font-display);font-size:36px;font-weight:300;margin-bottom:32px">Checkout</h1>
+      <div class="checkout-steps">
+        <div class="checkout-step done" id="co-step-1">Address</div>
+        <div class="checkout-step active" id="co-step-2">Payment</div>
+        <div class="checkout-step" id="co-step-3">Confirm</div>
+      </div>
+      <div id="co-address-section">
+        <div class="co-grid">
+          <div>
+            <p class="co-section-title">Delivery Address</p>
+            <div id="checkout-addresses"></div>
+            <button class="add-addr-btn" style="margin-top:12px" onclick="showAddAddrModal()">+ Add New Address</button>
+            <button class="btn-buy" style="margin-top:24px;width:100%" onclick="proceedToPayment()">Continue to Payment
+              →</button>
+          </div>
+          <div id="checkout-order-summary"></div>
+        </div>
+      </div>
+      <div id="co-payment-section" style="display:none">
+        <div class="co-grid">
+          <div>
+            <p class="co-section-title">Payment Method</p>
+            <div class="pay-option selected" onclick="selectPay(this,'upi')">
+              <input type="radio" name="pay" checked>
+              <div>
+                <div class="pay-label">UPI</div>
+                <div class="pay-sub">Google Pay, PhonePe, Paytm</div>
+              </div>
+            </div>
+            <div class="upi-input" id="upi-input" style="display:block">
+              <input type="text" placeholder="Enter UPI ID (e.g. name@upi)" class="form-input" id="upi-id">
+            </div>
+            <div class="pay-option" onclick="selectPay(this,'credit')">
+              <input type="radio" name="pay">
+              <div>
+                <div class="pay-label">Credit Card</div>
+                <div class="pay-sub">Visa, Mastercard, Amex, RuPay</div>
+              </div>
+            </div>
+            <div class="card-inputs" id="credit-inputs">
+              <input type="text" placeholder="Card Number" class="form-input" maxlength="19" oninput="formatCard(this)">
+              <div class="card-row"><input type="text" placeholder="MM/YY" class="form-input" maxlength="5"><input
+                  type="password" placeholder="CVV" class="form-input" maxlength="3"></div>
+              <input type="text" placeholder="Cardholder Name" class="form-input">
+            </div>
+            <div class="pay-option" onclick="selectPay(this,'debit')">
+              <input type="radio" name="pay">
+              <div>
+                <div class="pay-label">Debit Card</div>
+                <div class="pay-sub">Visa, Mastercard, RuPay, Maestro</div>
+              </div>
+            </div>
+            <div class="card-inputs" id="debit-inputs">
+              <input type="text" placeholder="Card Number" class="form-input" maxlength="19" oninput="formatCard(this)">
+              <div class="card-row"><input type="text" placeholder="MM/YY" class="form-input" maxlength="5"><input
+                  type="password" placeholder="CVV" class="form-input" maxlength="3"></div>
+              <input type="text" placeholder="Cardholder Name" class="form-input">
+            </div>
+            <div class="pay-option" onclick="selectPay(this,'netbanking')">
+              <input type="radio" name="pay">
+              <div>
+                <div class="pay-label">Net Banking</div>
+                <div class="pay-sub">All major Indian banks supported</div>
+              </div>
+            </div>
+            <div class="pay-option" onclick="selectPay(this,'cod')">
+              <input type="radio" name="pay">
+              <div>
+                <div class="pay-label">Cash on Delivery</div>
+                <div class="pay-sub">Pay when your order arrives</div>
+              </div>
+            </div>
+            <button class="btn-buy" style="margin-top:24px;width:100%" onclick="placeOrder()">Place Order →</button>
+          </div>
+          <div id="checkout-order-summary-2"></div>
+        </div>
+      </div>
+      <div id="co-success-section" style="display:none">
+        <div class="order-success">
+          <div class="order-success-icon">🎉</div>
+          <h2>Order Placed!</h2>
+          <p>Your order has been placed successfully. The seller will ship it within 2–3 business days.<br>Track your
+            order from your profile page.</p>
+          <button class="btn-primary"
+            style="background:var(--black);color:var(--white);padding:14px 32px;border-radius:100px;border:none;font-family:var(--font-body);font-size:14px;cursor:pointer"
+            onclick="showPage('home')">Continue Shopping</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─────────── SELL PAGE ─────────── -->
+  <div class="page" id="page-sell">
+    <div class="sell-wrap">
+      <h1 class="sell-title">Post a Listing</h1>
+      <p class="sell-sub">Reach thousands of local buyers — it takes less than 3 minutes.</p>
+      <div class="form-group">
+        <label class="form-label">Photos (up to 10)</label>
+        <div class="img-upload" id="img-upload-zone" onclick="document.getElementById('img-file-input').click()">
+          <div class="img-upload-icon">📷</div>
+          <p>Click to upload photos<br><small style="color:var(--gray-400)">JPG, PNG up to 10MB each. First photo is the
+              cover. Add multiple angles!</small></p>
+          <input type="file" id="img-file-input" accept="image/*" multiple style="display:none"
+            onchange="handleImgUpload(this)">
+        </div>
+        <div class="preview-imgs" id="preview-imgs"></div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Title</label>
+        <input type="text" id="sell-title" class="form-input"
+          placeholder="e.g. iPhone 13 128GB / Honda City 2018 / 2BHK Apartment Indiranagar">
+        <div class="form-error" id="err-title"></div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Description</label>
+        <textarea id="sell-desc" class="form-textarea"
+          placeholder="Describe your item clearly — condition, usage history, faults, reason for selling, key features..."></textarea>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Asking Price (₹)</label>
+          <input type="number" id="sell-price" class="form-input" placeholder="e.g. 45000">
+          <div class="form-error" id="err-price"></div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Original / Market Price (₹)</label>
+          <input type="number" id="sell-orig-price" class="form-input" placeholder="e.g. 75000 (helps show deal value)">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Category</label>
+          <select id="sell-category" class="form-select" onchange="renderSellFields()">
+            <option value="">Select category</option>
+            <option value="electronics">Electronics</option>
+            <option value="cars">Cars</option>
+            <option value="bikes">Bikes</option>
+            <option value="properties">Properties</option>
+            <option value="furniture">Furniture</option>
+          </select>
+          <div class="form-error" id="err-cat"></div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Location / City</label>
+          <input type="text" id="sell-place" class="form-input" placeholder="e.g. Mumbai, Bangalore">
+          <div class="form-error" id="err-place"></div>
+        </div>
+      </div>
+      <div id="sell-dynamic-fields"></div>
+      <button class="sell-submit" onclick="submitListing()">Publish Listing →</button>
+    </div>
+  </div>
+
+  <!-- ─────────── SELLER PROFILE PAGE ─────────── -->
+  <div class="page" id="page-seller">
+    <div class="seller-page-wrap">
+      <div class="pd-breadcrumb" onclick="history.go(-1);showPage('home')">← Back</div>
+      <div class="seller-page-header" id="seller-page-header"></div>
+      <div style="display:grid;grid-template-columns:1fr 320px;gap:48px;align-items:start" class="seller-page-body">
+        <div>
+          <div class="section-header" style="margin-bottom:20px">
+            <h2 class="section-title" style="font-size:clamp(22px,3vw,30px)">Active Listings</h2>
+          </div>
+          <div class="product-grid" id="seller-listings-grid"></div>
+        </div>
+        <div id="seller-ratings-panel"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─────────── PROFILE PAGE ─────────── -->
+  <div class="page" id="page-profile">
+    <div class="profile-wrap">
+      <div class="profile-header" id="profile-header-content"></div>
+      <div class="profile-tabs">
+        <button class="profile-tab active" onclick="switchProfileTab(this,'listings')">My Listings</button>
+        <button class="profile-tab" onclick="switchProfileTab(this,'orders')">Orders</button>
+        <button class="profile-tab" onclick="switchProfileTab(this,'favourites')">Favourites</button>
+        <button class="profile-tab" onclick="switchProfileTab(this,'edit')">Edit Profile</button>
+        <button class="profile-tab" onclick="switchProfileTab(this,'addresses')">Addresses</button>
+        <button class="profile-tab" onclick="logout()" style="margin-left:auto;color:#c04040">Log out</button>
+      </div>
+      <div class="profile-section active" id="profile-listings">
+        <div class="product-grid" id="user-listings-grid"></div>
+      </div>
+      <div class="profile-section" id="profile-orders">
+        <div id="orders-list"></div>
+      </div>
+      <div class="profile-section" id="profile-favourites">
+        <div class="product-grid" id="user-favs-grid"></div>
+      </div>
+      <div class="profile-section" id="profile-edit">
+        <div class="edit-form">
+          <div class="form-group"><label class="form-label">Full Name</label><input type="text" id="edit-name"
+              class="form-input"></div>
+          <div class="form-group"><label class="form-label">Email</label><input type="email" id="edit-email"
+              class="form-input">
+            <div class="form-error" id="err-email"></div>
+          </div>
+          <div class="form-group"><label class="form-label">Phone</label><input type="tel" id="edit-phone"
+              class="form-input" maxlength="10">
+            <div class="form-error" id="err-phone"></div>
+          </div>
+          <div class="form-group"><label class="form-label">City</label><input type="text" id="edit-city"
+              class="form-input"></div>
+          <button class="sell-submit" onclick="saveProfile()" style="width:auto;padding:12px 32px">Save Changes</button>
+        </div>
+      </div>
+      <div class="profile-section" id="profile-addresses">
+        <div id="addresses-list"></div>
+        <button class="add-addr-btn" onclick="showAddAddrModal()">+ Add New Address</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─────────── CHAT PAGE ─────────── -->
+  <div class="page" id="page-chat">
+    <div class="chat-wrap">
+      <h1 class="chat-page-title">Messages</h1>
+      <div class="chat-layout" id="chat-layout">
+        <div class="chat-list" id="chat-list-panel">
+          <div class="chat-list-header">Conversations</div>
+          <div id="chat-list-items"></div>
+        </div>
+        <div class="chat-main" id="chat-main-panel">
+          <div class="mob-chat-back" id="mob-chat-back" onclick="mobChatBack()">
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <polyline points="15 18 9 12 15 6" />
+            </svg>
+            Back to conversations
+          </div>
+          <div class="chat-header" id="chat-header"></div>
+          <div class="chat-messages" id="chat-messages"></div>
+          <div class="chat-input-bar">
+            <button class="chat-emoji-btn" onclick="">😊</button>
+            <input type="text" id="chat-input" placeholder="Message…" onkeydown="if(event.key==='Enter')sendMsg()">
+            <button class="chat-send-btn" onclick="sendMsg()">
+              <svg width="14" height="14" fill="none" stroke="white" stroke-width="2" viewBox="0 0 24 24">
+                <line x1="22" y1="2" x2="11" y2="13" />
+                <polygon points="22 2 15 22 11 13 2 9 22 2" />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─────────── FAVOURITES PAGE ─────────── -->
+  <div class="page" id="page-favourites">
+    <div class="section">
+      <div class="section-header">
+        <h2 class="section-title">Your Favourites</h2>
+      </div>
+      <div class="product-grid" id="favs-grid"></div>
+      <div id="favs-empty" style="display:none">
+        <div class="empty-state">
+          <div class="empty-state-icon">♡</div>
+          <h3>Nothing saved yet</h3>
+          <p>Tap the heart on any listing to save it here.</p>
+          <br><button class="btn-primary"
+            style="background:var(--black);color:var(--white);padding:12px 28px;border-radius:100px;border:none;font-family:var(--font-body);cursor:pointer;margin-top:12px"
+            onclick="showPage('home')">Browse Listings</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─────────── AUTH MODAL ─────────── -->
+  <div class="modal-overlay" id="auth-modal">
+    <div class="modal">
+      <button class="modal-close" onclick="closeModal('auth-modal')">✕</button>
+      <h2 class="modal-title">Welcome to olx</h2>
+      <p class="modal-sub">Sign in to buy, sell & save favourites.</p>
+      <div class="modal-tabs">
+        <button class="modal-tab active" onclick="switchModalTab(this,'login')">Sign In</button>
+        <button class="modal-tab" onclick="switchModalTab(this,'signup')">Create Account</button>
+      </div>
+      <div class="modal-form active" id="modal-login">
+        <div class="form-group"><label class="form-label">Email or Phone</label><input type="text" id="login-id"
+            class="form-input" placeholder="you@email.com or 9876543210"></div>
+        <div class="form-group"><label class="form-label">Password</label><input type="password" id="login-pass"
+            class="form-input" placeholder="Enter password"></div>
+        <div class="form-error" id="err-login"></div>
+        <button class="modal-btn" onclick="doLogin()">Sign In</button>
+        <div class="modal-or">or</div>
+        <button class="modal-btn" style="background:var(--gray-50);color:var(--black);border:1px solid var(--gray-100)"
+          onclick="demoLogin()">Continue with Demo Account</button>
+      </div>
+      <div class="modal-form" id="modal-signup">
+        <div class="form-group"><label class="form-label">Full Name</label><input type="text" id="signup-name"
+            class="form-input" placeholder="Your name"></div>
+        <div class="form-group"><label class="form-label">Email</label><input type="email" id="signup-email"
+            class="form-input" placeholder="you@email.com">
+          <div class="form-error" id="err-su-email"></div>
+        </div>
+        <div class="form-group"><label class="form-label">Phone</label><input type="tel" id="signup-phone"
+            class="form-input" placeholder="10-digit mobile number" maxlength="10">
+          <div class="form-error" id="err-su-phone"></div>
+        </div>
+        <div class="form-group"><label class="form-label">Password</label><input type="password" id="signup-pass"
+            class="form-input" placeholder="Min 6 characters"></div>
+        <div class="form-error" id="err-signup"></div>
+        <button class="modal-btn" onclick="doSignup()">Create Account</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ADD ADDRESS MODAL -->
+  <div class="modal-overlay" id="addr-modal">
+    <div class="modal">
+      <button class="modal-close" onclick="closeModal('addr-modal')">✕</button>
+      <h2 class="modal-title">Add Address</h2>
+      <div class="form-group"><label class="form-label">Full Name</label><input type="text" id="addr-name"
+          class="form-input" placeholder="Recipient name"></div>
+      <div class="form-group"><label class="form-label">Address Line 1</label><input type="text" id="addr-line1"
+          class="form-input" placeholder="House No., Street, Area"></div>
+      <div class="form-group"><label class="form-label">Address Line 2</label><input type="text" id="addr-line2"
+          class="form-input" placeholder="Landmark (optional)"></div>
+      <div class="form-row">
+        <div class="form-group"><label class="form-label">City</label><input type="text" id="addr-city"
+            class="form-input" placeholder="City"></div>
+        <div class="form-group"><label class="form-label">State</label><input type="text" id="addr-state"
+            class="form-input" placeholder="State"></div>
+      </div>
+      <div class="form-group"><label class="form-label">PIN Code</label><input type="text" id="addr-pin"
+          class="form-input" placeholder="6-digit PIN" maxlength="6">
+        <div class="form-error" id="err-pin"></div>
+      </div>
+      <button class="modal-btn" onclick="saveAddress()">Save Address</button>
+    </div>
+  </div>
+
+  <!-- ─────────── REPORT SELLER MODAL ─────────── -->
+  <div class="modal-overlay" id="report-modal">
+    <div class="modal" style="max-width:420px">
+      <button class="modal-close" onclick="closeModal('report-modal')">✕</button>
+      <h2 class="modal-title" style="font-size:20px">Report Seller</h2>
+      <p class="modal-sub" style="margin-bottom:20px">Help us keep OLX safe. Select a reason for reporting.</p>
+      <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:16px" id="report-reasons">
+        <label style="display:flex;align-items:center;gap:10px;font-size:13px;cursor:pointer"><input type="radio"
+            name="report-reason" value="Fake listing"> Fake or misleading listing</label>
+        <label style="display:flex;align-items:center;gap:10px;font-size:13px;cursor:pointer"><input type="radio"
+            name="report-reason" value="Overpriced"> Grossly overpriced item</label>
+        <label style="display:flex;align-items:center;gap:10px;font-size:13px;cursor:pointer"><input type="radio"
+            name="report-reason" value="Fraud"> Suspected fraud or scam</label>
+        <label style="display:flex;align-items:center;gap:10px;font-size:13px;cursor:pointer"><input type="radio"
+            name="report-reason" value="Abusive"> Abusive or offensive behavior</label>
+        <label style="display:flex;align-items:center;gap:10px;font-size:13px;cursor:pointer"><input type="radio"
+            name="report-reason" value="Wrong category"> Item in wrong category</label>
+        <label style="display:flex;align-items:center;gap:10px;font-size:13px;cursor:pointer"><input type="radio"
+            name="report-reason" value="Other"> Other</label>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Additional details (optional)</label>
+        <textarea id="report-details" class="form-textarea" rows="3"
+          placeholder="Describe the issue in more detail..."></textarea>
+      </div>
+      <button class="sell-submit" style="margin-top:12px" onclick="submitReport()">Submit Report</button>
+    </div>
+  </div>
+
+  <!-- TOAST -->
+  <div class="toast" id="toast"></div>
+
+  <script>
+    // ─────────── DATA ───────────
+    // Edit image URLs here (single place).
+    const IMAGE_URLS = {
+      hero: '',
+
+      productsById: {
+        // ── ELECTRONICS ──
+        p1: /* iPhone 13 128GB             */['https://i.ebayimg.com/images/g/eQAAAeSwGQlpeUVe/s-l1600.webp', 'https://i.ebayimg.com/images/g/YjAAAeSwYkRpeUVe/s-l1600.webp', 'https://i.ebayimg.com/images/g/e~MAAeSw1lVpeUVf/s-l1600.webp'],
+        p2: /* Lenovo IdeaPad Gaming 3      */['https://i.ebayimg.com/images/g/1wwAAeSwdRNp35gd/s-l1600.webp', 'https://i.ebayimg.com/images/g/hEcAAeSw5vBp35ge/s-l1600.webp'],
+        p9: /* PlayStation 5 Disc Edition   */['https://i.ebayimg.com/images/g/WVMAAeSwf8Fp5klu/s-l1600.webp', 'https://i.ebayimg.com/images/g/qZkAAeSwuqdp5klu/s-l1600.webp'],
+        p13: /* Samsung 55" 4K Smart TV      */['https://i.ebayimg.com/images/g/ZUIAAeSwSlNpz45D/s-l1600.webp', 'https://i.ebayimg.com/images/g/~mAAAeSwNtJpz45D/s-l1600.webp'],
+        p20: /* Canon EOS 200D II DSLR       */['https://i.ebayimg.com/images/g/Mj8AAeSw~5lpeciA/s-l500.webp', 'https://i.ebayimg.com/images/g/9s8AAeSwaZFpeciC/s-l500.webp'],
+        p24: /* iPad Air 5th Gen 64GB        */['https://i.ebayimg.com/images/g/fOcAAeSwMdhpnJ1S/s-l140.webp', 'https://i.ebayimg.com/images/g/NlYAAeSwh79pnJ1Z/s-l1600.webp'],
+        // ── CARS ──
+        p3:  /* 2019 Hyundai i20 Sportz      */['https://mda.spinny.com/sp-file-system/public/2026-04-18/60fca30561504b6381a5a8539713aaef/raw/file.JPG?q=85&w=900&dpr=1.4', 'https://mda.spinny.com/sp-file-system/public/2026-04-18/3b9d989c1fc54080ba43463f2a56f997/raw/file.JPG?q=85&w=900&dpr=1.4'],
+        p14: /* Toyota Innova Crysta 2020    */['https://mda.spinny.com/sp-file-system/public/2025-06-19/9ec6ae147dd04f88a5b8f1deec4240ff/raw/file.JPG?q=85', 'https://mda.spinny.com/sp-file-system/public/2025-06-19/9ec6ae147dd04f88a5b8f1deec4240ff/raw/file.JPG?q=85&w=900&dpr=1.4'],
+        p21: /* 2017 Maruti Swift VXI        */['https://mda.spinny.com/sp-file-system/public/2026-04-16/8b13eb9266d74698852cf4f34299ade5/raw/file.JPG?q=85', 'https://mda.spinny.com/sp-file-system/public/2026-04-16/51f23057ace54c90a56ecb89c1ed0680/raw/file.JPG?q=85&w=900&dpr=1.4'],
+        p22: /* 2022 Mahindra Thar LX        */['https://mda.spinny.com/sp-file-system/public/2026-01-08/53eb9ef97d29418997dbfe8441807165/raw/file.JPG?q=85', 'https://mda.spinny.com/sp-file-system/public/2026-01-08/8e559a8347cc4cd9a96b3d5d8c6ce9d1/raw/file.JPG?q=85&w=900&dpr=1.4'],
+        // ── BIKES ──
+        p4:  /* Royal Enfield Classic 350    */['https://apollo.olx.in/v1/files/f3hjwqs347b32-IN/image;s=600x1200;q=60;f=webp', 'https://apollo.olx.in/v1/files/6bhvnq6c9oam1-IN/image;s=300x600;q=60;f=webp'],
+        p11: /* 2021 Honda Activa 6G         */['data:image/jpeg;base64,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', 'https://apollo.olx.in/v1/files/sobruhpu3qnx-IN/image;s=600x1200;q=60;f=webp'],
+        p15: /* Yamaha R15 V4 Racing Blue    */['https://apollo.olx.in/v1/files/x4la8uju6hac2-IN/image;s=600x1200;q=60;f=webp', 'https://apollo.olx.in/v1/files/wgpfzcn8ou7s1-IN/image;s=600x1200;q=60;f=webp'],
+        p19: /* Ola S1 Pro Electric Scooter  */['https://apollo.olx.in/v1/files/nb67zatw7mhe2-IN/image;s=300x600;q=60;f=webp', 'https://apollo.olx.in/v1/files/wor2gbndkjca-IN/image;s=300x600;q=60;f=webp'],
+        p5:  /* 2BHK Apartment for Rent      */['https://imagecdn.99acres.com/media1/28506/11/570131871O-1767498586986.jpg', 'https://imagecdn.99acres.com/media1/28506/11/570131857T-1767498617786.jpg'],
+        p6:  /* 120 Sq Yd Residential Plot   */['https://imagecdn.99acres.com/media1/36844/6/736886238M-1775173785317.jpg', 'https://imagecdn.99acres.com/media1/36882/13/737653758M-1775288773571.jpg'],
+        p12: /* 3BHK Independent House       */['https://imagecdn.99acres.com/media1/36521/5/730425344M-1774104837352.jpg', 'https://newprojects.99acres.com/projects/surendra_group/surendra_anugrah_villas/images/cb64s2j_1759838960_657592921_med.jpg'],
+        p16: /* Studio Apartment for Sale    */['https://imagecdn.99acres.com/media1/36844/7/736887304M-1775174569356.jpg', 'https://imagecdn.99acres.com/media1/37183/3/743663236M-1776210879550.jpg'],
+        p23: /* Commercial Office Space      */['data:image/jpeg;base64,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', 'https://imagecdn.99acres.com/media1/36810/15/736215360M-1775063229399.webp'],
+        // ── FURNITURE ──
+        p7:  /* L-Shape Fabric Sofa 6 Seater */['https://apollo.olx.in/v1/files/icx5pldkisf21-IN/image;s=300x600;q=60;f=webp', 'https://apollo.olx.in/v1/files/16xz3wvnino93-IN/image;s=300x600;q=60;f=webp'],
+        p8:  /* Queen Bed with Storage       */['https://apollo.olx.in/v1/files/129vxqmpsme4-IN/image;s=300x600;q=60;f=webp', 'https://apollo.olx.in/v1/files/rosahpswrl9p-IN/image;s=300x600;q=60;f=webp'],
+        p10: /* Study Table + Ergonomic Chair*/['https://apollo.olx.in/v1/files/ph575tkir2j9-IN/image;s=300x600;q=60;f=webp', 'https://apollo.olx.in/v1/files/o9yps4dnby5a1-IN/image;s=300x600;q=60;f=webp'],
+        p17: /* 6-Door Solid Wood Wardrobe   */['https://apollo.olx.in/v1/files/qyz6wt5nzfcf-IN/image;s=300x600;q=60;f=webp', 'https://apollo.olx.in/v1/files/ok36ubgtf7w61-IN/image;s=300x600;q=60;f=webp'],
+        p18: /* Dining Table 6 Seater Set    */['https://apollo.olx.in/v1/files/9gsigtdo1x1x1-IN/image;s=600x1200;q=60;f=webp', 'https://apollo.olx.in/v1/files/h4s6dlwbux8s-IN/image;s=600x1200;q=60;f=webp']
+      }
+    };
+
+    const IMG_FALLBACK = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 900 1200'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0%25' stop-color='%23f1f1f1'/%3E%3Cstop offset='100%25' stop-color='%23e2e2e2'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='900' height='1200' fill='url(%23g)'/%3E%3Ctext x='50%25' y='48%25' text-anchor='middle' fill='%23848484' font-family='Arial,sans-serif' font-size='44'%3EImage removed%3C/text%3E%3Ctext x='50%25' y='54%25' text-anchor='middle' fill='%23959595' font-family='Arial,sans-serif' font-size='30'%3Eolx%3C/text%3E%3C/svg%3E";
+
+    function normalizeImageKeywords(p) {
+      const stopWords = new Set(['the', 'and', 'for', 'with', 'from', 'this', 'that', 'like', 'new', 'good', 'size', 'fit', 'set', 'worn', 'once', 'barely', 'classic']);
+      const base = `${p.title} ${p.sub || ''} ${p.desc || ''} ${p.cat}`.toLowerCase().replace(/[^a-z0-9\s-]/g, ' ');
+      const picked = [];
+      base.split(/\s+/).forEach(tok => {
+        if (tok.length < 3 || stopWords.has(tok)) return;
+        if (!picked.includes(tok)) picked.push(tok);
+      });
+      const catHints = {
+        electronics: 'electronics',
+        automobile: 'vehicle',
+        properties: 'property',
+        furniture: 'furniture',
+        extra: 'resale'
+      };
+      return [...picked.slice(0, 4), catHints[p.cat] || 'marketplace', 'used', 'sale'].join(',');
+    }
+    function getProductImages(p) {
+      if (p.uploadedImg) return [p.uploadedImg];
+      const mapped = IMAGE_URLS.productsById[p.id];
+      if (Array.isArray(mapped) && mapped.length > 0) return mapped;
+      return [
+        IMG_FALLBACK,
+        IMG_FALLBACK,
+        IMG_FALLBACK,
+        IMG_FALLBACK,
+      ];
+    }
+    function getPrimaryProductImage(p) {
+      return getProductImages(p)[0] || IMG_FALLBACK;
+    }
+
+    const SELLERS = [
+      { name: 'Aanya Mehta', city: 'Mumbai', rating: 4.8, sales: 47, avatar: 'AM' },
+      { name: 'Rohan Kapoor', city: 'Delhi', rating: 4.6, sales: 32, avatar: 'RK' },
+      { name: 'Priya Sharma', city: 'Bangalore', rating: 4.9, sales: 88, avatar: 'PS' },
+      { name: 'Arjun Nair', city: 'Chennai', rating: 4.5, sales: 19, avatar: 'AN' },
+      { name: 'Divya Iyer', city: 'Pune', rating: 4.7, sales: 61, avatar: 'DI' },
+      { name: 'Nikhil Jain', city: 'Jaipur', rating: 4.3, sales: 28, avatar: 'NJ' },
+      { name: 'Sneha Reddy', city: 'Hyderabad', rating: 4.8, sales: 53, avatar: 'SR' },
+      { name: 'Kabir Verma', city: 'Kolkata', rating: 4.4, sales: 15, avatar: 'KV' },
+    ];
+
+    const SEED_PRODUCTS = [
+      // ELECTRONICS
+      { id: 'p1', title: 'iPhone 13 128GB', price: 37999, orig: 52999, cat: 'electronics', sub: 'Mobiles', cond: 'Good', badge: 'trending', desc: 'Battery health 88%. No repairs. Includes original cable and one transparent case. Face ID works flawlessly.', specs: '128GB / Space Grey', seller: 2, place: 'Bangalore', time: '2 hours ago' },
+      { id: 'p2', title: 'Lenovo IdeaPad Gaming 3', price: 44500, orig: 68999, cat: 'electronics', sub: 'Laptops', cond: 'Like New', badge: 'new', desc: 'Ryzen 5, 16GB RAM, RTX 3050, 512GB SSD. Bought 7 months ago and lightly used. All accessories included.', specs: 'Ryzen 5 / 16GB / RTX 3050', seller: 4, place: 'Pune', time: '1 day ago' },
+      { id: 'p9', title: 'PlayStation 5 Disc Edition', price: 42999, orig: 54990, cat: 'electronics', sub: 'Gaming', cond: 'Like New', badge: 'trending', desc: 'Purchased in 2025. Two controllers, charging dock, and box included. Barely 50 hours of play time.', specs: '825GB SSD · 4K Gaming', seller: 1, place: 'Kolkata', time: '1 hour ago' },
+      { id: 'p13', title: 'Samsung 55" 4K Smart TV', price: 58000, orig: 59999, cat: 'electronics', sub: 'Audio', cond: 'Good', badge: '', desc: 'Samsung Crystal 4K UHD Smart TV, 2 years old. No scratches on screen. Remote and stand included. Selling due to upgrade.', specs: '55" · 4K UHD · Crystal Display', seller: 5, place: 'Hyderabad', time: '1 day ago' },
+      { id: 'p20', title: 'Canon EOS 200D II DSLR', price: 39500, orig: 54995, cat: 'electronics', sub: 'Cameras', cond: 'Like New', badge: 'new', desc: 'Used for 6 months. 24.1MP, kit lens 18-55mm included. Less than 2000 shutter count. Bag, charger and 2 batteries.', specs: '24.1MP · 18-55mm Lens', seller: 0, place: 'Mumbai', time: '3 hours ago' },
+      { id: 'p24', title: 'iPad Air 5th Gen 64GB', price: 52000, orig: 54900, cat: 'electronics', sub: 'Tablets', cond: 'Like New', badge: '', desc: 'Barely 3 months old. M1 chip, Wi-Fi only, Space Grey. Original box and Apple Pencil 2 included. Selling due to upgrade.', specs: '64GB · M1 · Wi-Fi', seller: 3, place: 'Chennai', time: '5 hours ago' },
+      // CARS
+      { id: 'p3', title: '2019 Hyundai i20 Sportz', price: 520000, orig: 670000, cat: 'cars', sub: 'Hatchback', cond: 'Good', badge: 'trending', desc: 'Second owner, comprehensive insurance active, all service records available. Clean body, no accidents.', specs: '58,000 km · Petrol · Manual', seller: 1, place: 'Delhi', time: '3 hours ago' },
+      { id: 'p14', title: 'Toyota Innova Crysta 2020', price: 1850000, orig: 1900000, cat: 'cars', sub: 'SUV', cond: 'Like New', badge: '', desc: 'Single owner, GX variant, 7 seater. Comprehensive insurance till 2026. All service at Toyota authorised center. Minor dent on rear bumper.', specs: '42,000 km · Diesel · Automatic', seller: 6, place: 'Jaipur', time: '2 days ago' },
+      { id: 'p21', title: '2017 Maruti Swift VXI', price: 385000, orig: 520000, cat: 'cars', sub: 'Hatchback', cond: 'Good', badge: '', desc: 'Third owner, good condition, petrol. New tyres fitted in Jan 2026. Dual airbags, ABS. No major accidents.', specs: '72,000 km · Petrol · Manual', seller: 7, place: 'Ahmedabad', time: '6 hours ago' },
+      { id: 'p22', title: '2022 Mahindra Thar LX', price: 1580000, orig: 1650000, cat: 'cars', sub: 'SUV', cond: 'Like New', badge: 'trending', desc: 'Single owner, hardtop variant. 4x4 diesel automatic. Adventure pack, sunroof, 360 camera. Less than 18k km.', specs: '17,800 km · Diesel · Automatic', seller: 2, place: 'Pune', time: '4 hours ago' },
+      // BIKES
+      { id: 'p4', title: 'Royal Enfield Classic 350', price: 135000, orig: 185000, cat: 'bikes', sub: 'Motorcycles', cond: 'Good', badge: '', desc: 'Single owner, new tyres, no accident history. City + highway driven. All papers clear.', specs: '32,400 km · 349cc', seller: 6, place: 'Jaipur', time: '6 hours ago' },
+      { id: 'p11', title: '2021 Honda Activa 6G', price: 58000, orig: 78000, cat: 'bikes', sub: 'Scooters', cond: 'Good', badge: '', desc: 'Single owner, serviced at Honda dealer every 3 months. Scratches only on left mirror. All papers clear.', specs: '18,200 km · 109cc', seller: 2, place: 'Lucknow', time: '7 hours ago' },
+      { id: 'p15', title: 'Yamaha R15 V4 Racing Blue', price: 148000, orig: 152000, cat: 'bikes', sub: 'Sports', cond: 'Like New', badge: '', desc: 'Barely 8 months old. Single owner, only 5200 km. No modifications. Serviced twice at Yamaha dealer. All accessories intact.', specs: '5,200 km · 155cc · VVA', seller: 4, place: 'Bangalore', time: '10 hours ago' },
+      { id: 'p19', title: 'Ola S1 Pro Electric Scooter', price: 102000, orig: 130000, cat: 'bikes', sub: 'Electric', cond: 'Good', badge: 'new', desc: 'Bought in 2024, 12,000 km done. Battery health 91%. Top speed 116 kmph. MoveOS 4.0 installed. Charging cable included.', specs: '12,000 km · 8.5kW · 3.97kWh', seller: 0, place: 'Mumbai', time: '20 mins ago' },
+      // PROPERTIES
+      { id: 'p5', title: '2BHK Apartment for Rent', price: 26000, orig: 30000, cat: 'properties', sub: 'Apartments', cond: 'Like New', badge: 'new', desc: 'Semi-furnished 2BHK with balcony and covered parking near metro station. Society with 24/7 security.', specs: '1050 sq.ft · 2nd Floor', seller: 3, place: 'Noida', time: '30 mins ago' },
+      { id: 'p6', title: '120 Sq Yd Residential Plot', price: 1250000, orig: 1500000, cat: 'properties', sub: 'Plots', cond: 'Good', badge: '', desc: 'Clear title, east-facing, close to 60ft road. Ready for immediate registration. HMDA approved.', specs: '120 sq.yd · East Facing', seller: 5, place: 'Hyderabad', time: '4 days ago' },
+      { id: 'p12', title: '3BHK Independent House', price: 8500000, orig: 9800000, cat: 'properties', sub: 'Houses', cond: 'Like New', badge: 'new', desc: 'G+1 independent house in prime location. 3 bedrooms, 2 baths, modular kitchen, covered parking for 2 cars. Ready to move.', specs: '1800 sq.ft · G+1', seller: 3, place: 'Indore', time: '9 hours ago' },
+      { id: 'p16', title: 'Studio Apartment for Sale', price: 3200000, orig: 3250000, cat: 'properties', sub: 'Apartments', cond: 'Good', badge: '', desc: 'Compact studio in IT corridor. 24/7 water, gym, swimming pool. East facing. Ideal for IT professionals. One covered parking.', specs: '420 sq.ft · 5th Floor · East', seller: 1, place: 'Bangalore', time: '3 days ago' },
+      { id: 'p23', title: 'Commercial Office Space', price: 75000, orig: 80000, cat: 'properties', sub: 'Commercial Space', cond: 'Like New', badge: '', desc: 'Ready-to-move furnished office space in prime commercial hub. Glass partition, server room, pantry. Ideal for 20-25 people.', specs: '1400 sq.ft · 3rd Floor', seller: 7, place: 'Delhi', time: '2 days ago' },
+      // FURNITURE
+      { id: 'p7', title: 'L-Shape Fabric Sofa (6 Seater)', price: 18999, orig: 32999, cat: 'furniture', sub: 'Sofas', cond: 'Good', badge: 'trending', desc: 'Comfortable 6-seater with washable covers. Minor stain on one corner, barely visible. Great for a large living room.', specs: '6 seater · Grey Fabric', seller: 0, place: 'Mumbai', time: '5 hours ago' },
+      { id: 'p8', title: 'Queen Bed with Storage', price: 13900, orig: 24000, cat: 'furniture', sub: 'Beds', cond: 'Like New', badge: 'new', desc: 'Engineered wood queen bed with hydraulic storage. Includes mattress. Purchased 8 months ago.', specs: '78 x 60 in · Wenge Finish', seller: 7, place: 'Chennai', time: '12 hours ago' },
+      { id: 'p10', title: 'Study Table + Ergonomic Chair', price: 6200, orig: 11000, cat: 'furniture', sub: 'Tables', cond: 'Good', badge: '', desc: 'Compact setup for WFH/students. Height-adjustable chair, table in great condition. Easy to disassemble.', specs: 'Table + Chair Set', seller: 4, place: 'Ahmedabad', time: '2 days ago' },
+      { id: 'p17', title: '6-Door Solid Wood Wardrobe', price: 28500, orig: 29000, cat: 'furniture', sub: 'Wardrobes', cond: 'Good', badge: '', desc: 'Solid Sheesham wood 6-door wardrobe with mirror and internal drawers. Minor scratch on one side panel. Dismantled for transport.', specs: '8ft x 6ft · Sheesham Wood', seller: 6, place: 'Jaipur', time: '1 day ago' },
+      { id: 'p18', title: 'Dining Table 6 Seater Set', price: 16500, orig: 27000, cat: 'furniture', sub: 'Tables', cond: 'Good', badge: 'new', desc: 'Solid wood dining table with 6 cushioned chairs. Clean and well maintained. Small chip on one chair leg.', specs: '6 Seater · Teak Finish', seller: 5, place: 'Hyderabad', time: '8 hours ago' }
+    ];
+
+    // ─────────── STATE ───────────
+    let state = {
+      products: [...SEED_PRODUCTS],
+      displayed: 16,
+      currentFilter: 'all',
+      currentCat: null,
+      currentSub: null,
+      currentSort: '',
+      searchQuery: '',
+      currentProduct: null,
+      checkoutProduct: null,
+      chatActive: 0,
+    };
+
+    function getLS(k, def = null) { try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : def } catch (e) { return def } }
+    function setLS(k, v) { try { localStorage.setItem(k, JSON.stringify(v)) } catch (e) { } }
+
+    let user = null; // always start logged out — user must sign in each session
+    let favourites = getLS('olx_favs', []);
+    let userListings = []; // reset on each load — user must re-list items after login
+    try { localStorage.removeItem('olx_listings'); } catch (e) { }
+    let addresses = getLS('olx_addresses', [
+      { id: 'a1', name: 'Rahul Verma', line1: '42, Palm Street, Andheri West', line2: 'Near Fun Republic Mall', city: 'Mumbai', state: 'Maharashtra', pin: '400058' },
+    ]);
+
+    // ─────────── PAGES ───────────
+    function goHome() {
+      // Full reset: clear search, subcategory, navigate home
+      state.searchQuery = '';
+      state.currentCat = null;
+      state.currentSub = null;
+      state.currentFilter = 'all';
+      state.displayed = 16;
+      const si = document.getElementById('search-input');
+      if (si) si.value = '';
+      const hero = document.querySelector('.hero');
+      const catsStrip = document.querySelector('.cats-strip');
+      const howSection = document.querySelector('.how-section');
+      const footer = document.querySelector('footer');
+      const clearBtn = document.getElementById('search-clear-inline');
+      if (hero) hero.style.display = '';
+      if (catsStrip) catsStrip.style.display = '';
+      if (howSection) howSection.style.display = '';
+      if (footer) footer.style.display = '';
+      if (clearBtn) clearBtn.style.display = 'none';
+      const titleEl = document.getElementById('grid-title');
+      if (titleEl) titleEl.textContent = 'Fresh Listings';
+      document.querySelectorAll('.filters-bar .filter-chip').forEach(b => b.classList.remove('active'));
+      const fc = document.querySelector('.filters-bar .filter-chip');
+      if (fc) fc.classList.add('active');
+      showPage('home');
+    }
+    function showPage(p) {
+      // Guard chat and sell behind login
+      if ((p === 'chat') && !user) { openModal('auth-modal'); return; }
+      document.querySelectorAll('.page').forEach(el => el.classList.remove('active'));
+      const el = document.getElementById('page-' + p);
+      if (el) el.classList.add('active');
+      window.scrollTo(0, 0);
+      if (p === 'home') renderGrid();
+      if (p === 'profile') renderProfile();
+      if (p === 'favourites') renderFavourites();
+      if (p === 'chat') renderChat();
+      if (p === 'checkout') renderCheckout();
+      closeMobMenu();
+    }
+    function handleChatClick() {
+      if (!user) { openModal('auth-modal'); return; }
+      showPage('chat');
+    }
+
+    // ─────────── NAVBAR ───────────
+    let megaTimers = {};
+    const MEGA_CATS = ['electronics', 'cars', 'bikes', 'properties', 'furniture'];
+    function openMega(cat) {
+      // Close all other menus instantly to prevent two showing at once
+      MEGA_CATS.forEach(c => {
+        if (c !== cat) {
+          clearTimeout(megaTimers[c]);
+          document.getElementById('mega-' + c).classList.remove('open');
+        }
+      });
+      clearTimeout(megaTimers[cat]);
+      document.getElementById('mega-' + cat).classList.add('open');
+    }
+    function closeMega(cat) {
+      megaTimers[cat] = setTimeout(() => {
+        document.getElementById('mega-' + cat).classList.remove('open');
+      }, 220);
+    }
+    function keepMega(cat) { clearTimeout(megaTimers[cat]); }
+    function toggleMobCat(itemId, cat) {
+      const item = document.getElementById(itemId);
+      const isExpanded = item.classList.contains('expanded');
+      // collapse all
+      document.querySelectorAll('.mob-cat-item').forEach(el => el.classList.remove('expanded'));
+      if (!isExpanded) item.classList.add('expanded');
+    }
+    function toggleMobMenu() {
+      const m = document.getElementById('mob-menu');
+      const h = document.getElementById('hamburger');
+      m.classList.toggle('open');
+      h.classList.toggle('open');
+      if (!m.classList.contains('open')) {
+        document.querySelectorAll('.mob-cat-item').forEach(el => el.classList.remove('expanded'));
+      }
+    }
+    function closeMobMenu() {
+      document.getElementById('mob-menu').classList.remove('open');
+      document.getElementById('hamburger').classList.remove('open');
+    }
+
+    // ─────────── AUTH ───────────
+    function handleProfileClick() {
+      if (user) showPage('profile');
+      else openModal('auth-modal');
+    }
+    function handleSellClick() {
+      if (user) showPage('sell');
+      else openModal('auth-modal');
+    }
+    function openModal(id) { document.getElementById(id).classList.add('open') }
+    function closeModal(id) { document.getElementById(id).classList.remove('open') }
+    function switchModalTab(btn, tab) {
+      document.querySelectorAll('.modal-tab').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      document.querySelectorAll('.modal-form').forEach(f => f.classList.remove('active'));
+      document.getElementById('modal-' + tab).classList.add('active');
+    }
+
+    function doLogin() {
+      const id = document.getElementById('login-id').value.trim();
+      const pass = document.getElementById('login-pass').value;
+      if (!id || !pass) { document.getElementById('err-login').textContent = 'Please fill in all fields.'; return }
+      // Extract a display name from the email (before @) or use a generic one
+      const namePart = id.includes('@') ? id.split('@')[0].replace(/[._]/g, ' ').replace(/\b\w/g, c => c.toUpperCase()) : 'User';
+      user = { name: namePart, email: id.includes('@') ? id : '', phone: id.includes('@') ? '' : id, city: '', joined: new Date().toLocaleDateString('en-IN', { month: 'short', year: 'numeric' }) };
+      setLS('olx_user', user);
+      closeModal('auth-modal');
+      showToast('Welcome back, ' + user.name.split(' ')[0] + '! 👋');
+      updateNavUser();
+    }
+    function demoLogin() {
+      user = { name: 'Rahul Verma', email: 'rahul@example.com', phone: '9876543210', city: 'Mumbai', joined: 'Apr 2024' };
+      setLS('olx_user', user);
+      closeModal('auth-modal');
+      showToast('Signed in as Rahul 👋');
+      updateNavUser();
+    }
+    function doSignup() {
+      const name = document.getElementById('signup-name').value.trim();
+      const email = document.getElementById('signup-email').value.trim();
+      const phone = document.getElementById('signup-phone').value.trim();
+      const pass = document.getElementById('signup-pass').value;
+      let ok = true;
+      document.getElementById('err-su-email').textContent = '';
+      document.getElementById('err-su-phone').textContent = '';
+      document.getElementById('err-signup').textContent = '';
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { document.getElementById('err-su-email').textContent = 'Enter a valid email'; ok = false }
+      if (!/^[6-9]\d{9}$/.test(phone)) { document.getElementById('err-su-phone').textContent = 'Enter a valid 10-digit Indian mobile number'; ok = false }
+      if (pass.length < 6) { document.getElementById('err-signup').textContent = 'Password must be at least 6 characters'; ok = false }
+      if (!name) { document.getElementById('err-signup').textContent = 'Please enter your name'; ok = false }
+      if (!ok) return;
+      user = { name, email, phone, city: '', joined: new Date().toLocaleDateString('en-IN', { month: 'short', year: 'numeric' }) };
+      setLS('olx_user', user);
+      closeModal('auth-modal');
+      showToast('Welcome to olx, ' + name.split(' ')[0] + '! 🎉');
+      updateNavUser();
+    }
+    function logout() {
+      user = null;
+      setLS('olx_user', null);
+      showPage('home');
+      showToast('Logged out');
+      updateNavUser();
+    }
+    function updateNavUser() {
+      const btn = document.getElementById('profile-btn');
+      if (!btn) return;
+      if (user) {
+        const initials = user.name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2);
+        btn.innerHTML = `<span style="font-family:var(--font-display);font-size:13px;font-weight:500;letter-spacing:.02em">${initials}</span>`;
+        btn.style.background = 'var(--sand)';
+        btn.style.borderColor = 'var(--sand)';
+      } else {
+        btn.innerHTML = `<svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>`;
+        btn.style.background = '';
+        btn.style.borderColor = '';
+      }
+    }
+
+    // ─────────── PRODUCTS ───────────
+    function getAllProducts() {
+      return [...SEED_PRODUCTS, ...userListings];
+    }
+
+    function getFilteredProducts() {
+      let products = getAllProducts();
+      if (state.currentCat) products = products.filter(p => p.cat === state.currentCat);
+      if (state.currentSub) products = products.filter(p => p.sub === state.currentSub);
+      if (state.currentFilter === 'new') products = products.filter(p => p.badge === 'new' || userListings.find(u => u.id === p.id));
+      if (state.currentFilter === 'trending') products = products.filter(p => p.badge === 'trending');
+      if (state.searchQuery) {
+        const q = state.searchQuery.toLowerCase();
+        // Search only title, cat, sub — NOT description to avoid false positives
+        const SEARCH_SYNONYMS = { phone: ['mobile', 'smartphone'], laptop: ['notebook'], car: ['vehicle'], bike: ['motorcycle'], flat: ['apartment', 'property'], home: ['house', 'property'], sofa: ['couch'], table: ['desk'], books: ['book'], cycle: ['bicycle'] };
+        let expandedTerms = [q];
+        Object.entries(SEARCH_SYNONYMS).forEach(([key, vals]) => {
+          if (q.includes(key)) expandedTerms = [...expandedTerms, ...vals];
+        });
+        products = products.filter(p => {
+          const title = p.title.toLowerCase();
+          const sub = (p.sub || '').toLowerCase();
+          const cat = p.cat.toLowerCase();
+          return expandedTerms.some(term => title.includes(term) || sub.includes(term) || cat.includes(term));
+        });
+      }
+      if (state.currentSort === 'price-asc') products.sort((a, b) => a.price - b.price);
+      else if (state.currentSort === 'price-desc') products.sort((a, b) => b.price - a.price);
+      else if (state.currentSort === 'newest') products.sort((a, b) => (b.id > a.id ? 1 : -1));
+      return products;
+    }
+
+    function renderGrid() {
+      const grid = document.getElementById('product-grid');
+      if (!grid) return;
+      const products = getFilteredProducts();
+      const slice = products; // show all
+      if (slice.length === 0) {
+        grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:60px 0;color:var(--gray-400)">
+      <div style="font-size:36px;margin-bottom:12px;opacity:.3">🔍</div>
+      <p style="font-size:14px">No items found. Try a different search or category.</p>
+    </div>`;
+      } else {
+        grid.innerHTML = slice.map(p => productCardHTML(p)).join('');
+      }
+      document.getElementById('grid-count').textContent = products.length + ' items';
+      const eor = document.getElementById('end-of-results');
+      if (eor && products.length > 0) eor.style.display = 'block';
+      else if (eor) eor.style.display = 'none';
+      updateFavBadge();
+    }
+
+    function productCardHTML(p) {
+      const imgUrl = getPrimaryProductImage(p);
+      const isFav = favourites.includes(p.id);
+      const seller = SELLERS[p.seller] || SELLERS[0];
+      const badge = p.badge === 'new' ? '<span class="product-badge badge-new">New</span>' :
+        p.badge === 'trending' ? '<span class="product-badge badge-trending">Trending</span>' : '';
+      return `<div class="product-card fade-up" onclick="openProduct('${p.id}')">
+    <div class="product-img-wrap">
+      <img src="${imgUrl}" alt="${p.title}" loading="lazy" onerror="this.src='${IMG_FALLBACK}'">
+      ${badge}
+      <div class="product-card-actions">
+        <button class="card-action-btn ${isFav ? 'fav-active' : ''}" onclick="event.stopPropagation();toggleFav('${p.id}',this)" title="Save">
+          <svg width="14" height="14" fill="${isFav ? '#e05050' : 'none'}" stroke="${isFav ? '#e05050' : 'currentColor'}" stroke-width="1.5" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="product-info">
+      <div class="product-title">${p.title}</div>
+      <div class="product-meta">
+        <div>
+          <span class="product-price">₹${p.price.toLocaleString('en-IN')}</span>
+          ${p.orig ? `<span style="font-size:11px;color:var(--gray-400);text-decoration:line-through;margin-left:4px">₹${p.orig.toLocaleString('en-IN')}</span>` : ''}
+        </div>
+        <span class="product-cond">${p.cond}</span>
+      </div>
+      <div class="product-extra">
+        <span>⏱ ${p.time || 'Just now'}</span>
+        <span>📍 ${p.place || seller.city}</span>
+        <span>⭐ Seller ${seller.rating}</span>
+      </div>
+    </div>
+  </div>`;
+    }
+
+    function hashStr(s) { let h = 0; for (let i = 0; i < s.length; i++) { h = ((h << 5) - h) + s.charCodeAt(i); h |= 0 } return h }
+
+    function getPriceEval(price, orig) {
+      if (!orig || orig <= price) return { label: '\u26a0 High Price', cls: 'eval-high' };
+      const pct = (1 - price / orig) * 100;
+      if (pct >= 35) return { label: '\u2714 Great Deal', cls: 'eval-great' };
+      if (pct >= 20) return { label: '\u2714 Good Deal', cls: 'eval-good' };
+      if (pct >= 5) return { label: 'Fair Deal', cls: 'eval-fair' };
+      return { label: '\u26a0 High Price', cls: 'eval-high' };
+    }
+
+    function productCardHTML(p) {
+      const imgUrl = getPrimaryProductImage(p);
+      const isFav = favourites.includes(p.id);
+      const seller = SELLERS[p.seller] || SELLERS[0];
+      const badge = p.badge === 'new' ? '<span class="product-badge badge-new">New</span>' :
+        p.badge === 'trending' ? '<span class="product-badge badge-trending">Trending</span>' : '';
+      const evalObj = getPriceEval(p.price, p.orig);
+      const evalBadge = evalObj ? `<span class="price-eval ${evalObj.cls}">${evalObj.label}</span>` : '';
+      return `<div class="product-card fade-up" onclick="openProduct('${p.id}')">
+    <div class="product-img-wrap">
+      <img src="${imgUrl}" alt="${p.title}" loading="lazy" onerror="this.src='${IMG_FALLBACK}'">
+      ${badge}
+      <div class="product-card-actions">
+        <button class="card-action-btn ${isFav ? 'fav-active' : ''}" onclick="event.stopPropagation();toggleFav('${p.id}',this)" title="Save">
+          <svg width="14" height="14" fill="${isFav ? '#e05050' : 'none'}" stroke="${isFav ? '#e05050' : 'currentColor'}" stroke-width="1.5" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="product-info">
+      <div class="product-title">${p.title}</div>
+      <div class="product-meta">
+        <div>
+          <span class="product-price">₹${p.price.toLocaleString('en-IN')}</span>
+          ${p.orig ? `<span style="font-size:11px;color:var(--gray-400);text-decoration:line-through;margin-left:4px">₹${p.orig.toLocaleString('en-IN')}</span>` : ''}
+        </div>
+        <span class="product-cond">${p.cond}</span>
+      </div>
+      ${evalBadge}
+      <div class="product-extra">
+        <span>📍 ${p.place || seller.city}</span>
+        <span>⏱ ${p.time || 'Just now'}</span>
+        <span>★ ${seller.rating}</span>
+      </div>
+    </div>
+  </div>`;
+    }
+
+    function filterSort(btn, type) {
+      document.querySelectorAll('.filters-bar .filter-chip').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      state.currentFilter = type;
+      state.currentCat = null;
+      state.displayed = 16;
+      document.getElementById('grid-title').textContent = 'Fresh Listings';
+      renderGrid();
+    }
+    function sortProducts(val) {
+      state.currentSort = val;
+      renderGrid();
+    }
+    function filterCat(cat, sub) {
+      state.currentCat = cat;
+      state.currentSub = sub || null;
+      state.currentFilter = 'all';
+      state.displayed = 16;
+      state.searchQuery = '';
+      const si = document.getElementById('search-input');
+      if (si) si.value = '';
+      // If a sub-category is selected, hide hero + shop by category (same as search)
+      const hero = document.querySelector('.hero');
+      const catsStrip = document.querySelector('.cats-strip');
+      const howSection = document.querySelector('.how-section');
+      const srBar = document.getElementById('search-results-bar');
+      if (sub) {
+        if (hero) hero.style.display = 'none';
+        if (catsStrip) catsStrip.style.display = 'none';
+        if (howSection) howSection.style.display = 'none';
+        if (srBar) srBar.classList.remove('visible');
+      } else {
+        if (hero) hero.style.display = '';
+        if (catsStrip) catsStrip.style.display = '';
+        if (howSection) howSection.style.display = '';
+        if (srBar) srBar.classList.remove('visible');
+      }
+      const titles = { electronics: 'Electronics', cars: 'Cars', bikes: 'Bikes', properties: 'Properties', furniture: 'Furniture' };
+      const titleEl = document.getElementById('grid-title');
+      if (titleEl) titleEl.textContent = sub ? sub : (titles[cat] + ' Listings');
+      document.querySelectorAll('.filters-bar .filter-chip').forEach(b => b.classList.remove('active'));
+      const fc = document.querySelector('.filters-bar .filter-chip');
+      if (fc) fc.classList.add('active');
+      // Navigate to home page and scroll to grid
+      document.querySelectorAll('.page').forEach(el => el.classList.remove('active'));
+      document.getElementById('page-home').classList.add('active');
+      window.scrollTo(0, 0);
+      renderGrid();
+      setTimeout(() => {
+        const el = document.getElementById('product-grid-section');
+        if (el) el.scrollIntoView({ behavior: 'smooth' });
+      }, 80);
+    }
+    function handleSearch(q) {
+      state.searchQuery = q.trim();
+      state.currentCat = null;
+      state.currentSub = null;
+      state.displayed = 16;
+      const titleEl = document.getElementById('grid-title');
+      if (titleEl) titleEl.textContent = q.trim() ? `"${q.trim()}"` : 'Fresh Listings';
+      const hero = document.querySelector('.hero');
+      const catsStrip = document.querySelector('.cats-strip');
+      const howSection = document.querySelector('.how-section');
+      const footer = document.querySelector('footer');
+      const clearBtn = document.getElementById('search-clear-inline');
+      if (q.trim()) {
+        if (hero) hero.style.display = 'none';
+        if (catsStrip) catsStrip.style.display = 'none';
+        if (howSection) howSection.style.display = 'none';
+        if (footer) footer.style.display = 'none';
+        if (clearBtn) clearBtn.style.display = 'inline-flex';
+        const sw = document.querySelector('.search-wrap input');
+        if (sw) { sw.classList.remove('search-active'); void sw.offsetWidth; sw.classList.add('search-active'); sw.style.borderColor = 'var(--black)'; setTimeout(() => { sw.style.borderColor = ''; sw.classList.remove('search-active'); }, 600); }
+      } else {
+        clearSearch();
+      }
+      if (!document.getElementById('page-home').classList.contains('active')) {
+        document.querySelectorAll('.page').forEach(el => el.classList.remove('active'));
+        document.getElementById('page-home').classList.add('active');
+      }
+      renderGrid();
+    }
+    function clearSearch() {
+      state.searchQuery = '';
+      state.currentSub = null;
+      const si = document.getElementById('search-input');
+      if (si) si.value = '';
+      const hero = document.querySelector('.hero');
+      const catsStrip = document.querySelector('.cats-strip');
+      const howSection = document.querySelector('.how-section');
+      const footer = document.querySelector('footer');
+      const clearBtn = document.getElementById('search-clear-inline');
+      if (hero) hero.style.display = '';
+      if (catsStrip) catsStrip.style.display = '';
+      if (howSection) howSection.style.display = '';
+      if (footer) footer.style.display = '';
+      if (clearBtn) clearBtn.style.display = 'none';
+      const titleEl = document.getElementById('grid-title');
+      if (titleEl) titleEl.textContent = 'Fresh Listings';
+      renderGrid();
+    }
+    function loadMore() {
+      const btn = document.getElementById('load-more-btn');
+      btn.disabled = true;
+      btn.innerHTML = '<span class="spinner"></span> Loading…';
+      setTimeout(() => {
+        state.displayed += 12;
+        renderGrid();
+        btn.innerHTML = 'Load More';
+      }, 600);
+    }
+
+    // ─────────── FAVOURITES ───────────
+    function toggleFav(id, btn) {
+      const idx = favourites.indexOf(id);
+      if (idx === -1) {
+        favourites.push(id);
+        if (btn) {
+          btn.classList.add('fav-active');
+          btn.querySelector('svg').setAttribute('fill', '#e05050');
+          btn.querySelector('svg').setAttribute('stroke', '#e05050');
+        }
+        showToast('Saved to Favourites ♥');
+      } else {
+        favourites.splice(idx, 1);
+        if (btn) {
+          btn.classList.remove('fav-active');
+          btn.querySelector('svg').setAttribute('fill', 'none');
+          btn.querySelector('svg').setAttribute('stroke', 'currentColor');
+        }
+        showToast('Removed from Favourites');
+      }
+      setLS('olx_favs', favourites);
+      updateFavBadge();
+    }
+    function updateFavBadge() {
+      const badge = document.getElementById('fav-badge');
+      if (!badge) return;
+      if (favourites.length > 0) { badge.style.display = 'flex'; badge.textContent = favourites.length }
+      else badge.style.display = 'none';
+    }
+    function renderFavourites() {
+      const all = getAllProducts();
+      const favProducts = all.filter(p => favourites.includes(p.id));
+      const grid = document.getElementById('favs-grid');
+      const empty = document.getElementById('favs-empty');
+      if (!grid) return;
+      if (favProducts.length === 0) { grid.innerHTML = ''; if (empty) empty.style.display = 'block'; return }
+      if (empty) empty.style.display = 'none';
+      grid.innerHTML = favProducts.map(p => productCardHTML(p)).join('');
+    }
+
+    // ─────────── PRODUCT DETAIL ───────────
+    function openProduct(id) {
+      const all = getAllProducts();
+      const p = all.find(x => x.id === id);
+      if (!p) return;
+      state.currentProduct = p;
+      const seller = SELLERS[p.seller] || SELLERS[0];
+      const imgs = getProductImages(p);
+      const mainImg = imgs[0] || IMG_FALLBACK;
+      const isFav = favourites.includes(p.id);
+      const stars = '★'.repeat(Math.floor(seller.rating)) + '☆'.repeat(5 - Math.floor(seller.rating));
+      const similar = getAllProducts().filter(x => x.cat === p.cat && x.id !== p.id).slice(0, 4);
+
+      document.getElementById('pd-content').innerHTML = `
+    <div class="pd-imgs">
+      <div class="pd-main-img"><img src="${mainImg}" alt="${p.title}" id="pd-main-img-el" onerror="this.src='${mainImg}'"></div>
+      <div class="pd-thumbs">
+        ${imgs.map((img, idx) => `<div class="pd-thumb ${idx === 0 ? 'active' : ''}" onclick="switchPdImg(this, '${img}')"><img src="${img}" alt="${p.title}" onerror="this.src='${IMG_FALLBACK}'"></div>`).join('')}
+      </div>
+    </div>
+    <div class="pd-info">
+      <div class="pd-category">${p.cat.toUpperCase()} ${p.sub ? '/ ' + p.sub.toUpperCase() : ''}</div>
+      <h1 class="pd-title">${p.title}</h1>
+      <div style="display:flex;align-items:baseline;gap:12px;margin-bottom:8px">
+        <span class="pd-price">₹${p.price.toLocaleString('en-IN')}</span>
+        ${p.orig ? `<span class="pd-orig-price">₹${p.orig.toLocaleString('en-IN')}</span>` : ''}
+        ${p.orig ? `<span style="font-size:12px;color:var(--sage-dark);font-weight:500">${Math.round((1 - p.price / p.orig) * 100)}% off</span>` : ''}
+      </div>
+      <span class="pd-cond-badge">${p.cond}</span>
+      <div style="margin-bottom:16px;font-size:13px;color:var(--gray-400)">Location: <strong style="color:var(--black)">${p.place || seller.city}</strong> · Posted ${p.time || 'recently'}</div>
+      ${p.specs ? `<div style="margin-bottom:16px;font-size:13px;color:var(--gray-400)">Specs: <strong style="color:var(--black)">${p.specs}</strong></div>` : ''}
+      <div class="pd-divider"></div>
+      <p class="pd-desc">${p.desc || 'Pre-owned listing in great condition.'}</p>
+      <div class="pd-seller" style="cursor:pointer" onclick="openSellerProfile(${p.seller})">
+        <div class="seller-avatar" style="background:var(--sand)">${seller.avatar}</div>
+        <div style="flex:1">
+          <div class="seller-name">${seller.name} <span style="font-size:11px;color:var(--gray-400);font-weight:300">· ${seller.city}</span></div>
+          <div class="seller-stats"><span class="stars">${stars}</span> ${seller.rating} · ${seller.sales} sales</div>
+          <div style="font-size:11px;color:var(--sage-dark);margin-top:3px">✓ Verified Seller</div>
+        </div>
+        <button class="filter-chip" style="flex-shrink:0;font-size:11px;padding:6px 12px" onclick="event.stopPropagation();openSellerProfile(${p.seller})">View Profile →</button>
+      </div>
+      <div class="pd-btns">
+        <button class="btn-buy" onclick="startCheckout('${p.id}')">Make an Offer / Buy — ₹${p.price.toLocaleString('en-IN')}</button>
+        <button class="btn-chat" onclick="chatWithSeller('${seller.name}')">💬 Chat with ${seller.name.split(' ')[0]}</button>
+        <button class="btn-fav ${isFav ? 'active' : ''}" id="pd-fav-btn" onclick="toggleFavPD('${p.id}')">
+          ${isFav ? '♥ Saved' : '♡ Save to Favourites'}
+        </button>
+      </div>
+      <div class="pd-tags">
+        <span class="pd-tag">${p.cat}</span>
+        ${p.sub ? `<span class="pd-tag">${p.sub}</span>` : ''}
+        <span class="pd-tag">${p.cond}</span>
+        <span class="pd-tag">${p.place || seller.city}</span>
+        <span class="pd-tag">Verified seller</span>
+      </div>
+    </div>
+  `;
+      document.getElementById('similar-grid').innerHTML = similar.map(s => productCardHTML(s)).join('');
+      showPage('product');
+    }
+    function switchPdImg(thumb, src) {
+      document.getElementById('pd-main-img-el').src = src;
+      document.querySelectorAll('.pd-thumb').forEach(t => t.classList.remove('active'));
+      thumb.classList.add('active');
+    }
+    function toggleFavPD(id) {
+      const btn = document.getElementById('pd-fav-btn');
+      const idx = favourites.indexOf(id);
+      if (idx === -1) { favourites.push(id); btn.classList.add('active'); btn.textContent = '♥ Saved'; showToast('Saved to Favourites ♥') }
+      else { favourites.splice(idx, 1); btn.classList.remove('active'); btn.textContent = '♡ Save to Favourites'; showToast('Removed from Favourites') }
+      setLS('olx_favs', favourites);
+      updateFavBadge();
+    }
+
+    // ─────────── CHECKOUT ───────────
+    function startCheckout(id) {
+      if (!user) { openModal('auth-modal'); return }
+      const all = getAllProducts();
+      state.checkoutProduct = all.find(p => p.id === id);
+      document.getElementById('co-address-section').style.display = 'block';
+      document.getElementById('co-payment-section').style.display = 'none';
+      document.getElementById('co-success-section').style.display = 'none';
+      document.getElementById('co-step-1').className = 'checkout-step active';
+      document.getElementById('co-step-2').className = 'checkout-step';
+      document.getElementById('co-step-3').className = 'checkout-step';
+      showPage('checkout');
+    }
+    function renderCheckout() {
+      const p = state.checkoutProduct;
+      if (!p) return;
+      const summaryCont = orderSummaryHTML(p);
+      document.getElementById('checkout-addresses').innerHTML = renderAddrOptions();
+      document.getElementById('checkout-order-summary').innerHTML = summaryCont;
+      document.getElementById('checkout-order-summary-2').innerHTML = summaryCont;
+    }
+    function renderAddrOptions() {
+      if (addresses.length === 0) return '<p style="font-size:13px;color:var(--gray-400)">No addresses saved. Add one below.</p>';
+      return addresses.map((a, i) => `
+    <div class="addr-option ${i === 0 ? 'selected' : ''}" onclick="selectAddr(this)">
+      <input type="radio" name="addr" ${i === 0 ? 'checked' : ''}>
+      <div class="addr-label">
+        <div class="addr-name">${a.name}</div>
+        <div class="addr-text">${a.line1}, ${a.line2 ? a.line2 + ', ' : ''} ${a.city}, ${a.state} — ${a.pin}</div>
+      </div>
+    </div>`).join('');
+    }
+    function orderSummaryHTML(p) {
+      const imgUrl = getPrimaryProductImage(p);
+      const delivery = p.price > 999 ? 0 : 49;
+      const total = p.price + delivery;
+      return `<div class="order-summary">
+    <p style="font-size:12px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--gray-400);margin-bottom:16px">Order Summary</p>
+    <div class="order-item">
+      <img class="order-img" src="${imgUrl}" alt="${p.title}" onerror="this.style.background='var(--gray-100)'">
+      <div class="order-item-info">
+        <div class="order-item-title">${p.title}</div>
+        <div class="order-item-sub">${p.cond} · ${p.specs || 'Listing details available'}</div>
+        <div class="order-item-price">₹${p.price.toLocaleString('en-IN')}</div>
+      </div>
+    </div>
+    <div class="pd-divider"></div>
+    <div class="order-line"><span>Item price</span><span>₹${p.price.toLocaleString('en-IN')}</span></div>
+    <div class="order-line"><span>Delivery</span><span>${delivery === 0 ? 'Free' : '₹' + delivery}</span></div>
+    <div class="order-line"><span>Platform fee</span><span>₹0</span></div>
+    <div class="order-total"><span>Total</span><span>₹${total.toLocaleString('en-IN')}</span></div>
+    ${p.price > 999 ? '<p style="font-size:11px;color:var(--sage-dark);margin-top:8px">🎉 Free delivery applied</p>' : ''}
+  </div>`;
+    }
+    function selectAddr(el) { document.querySelectorAll('.addr-option').forEach(a => { a.classList.remove('selected'); a.querySelector('input').checked = false }); el.classList.add('selected'); el.querySelector('input').checked = true }
+    function proceedToPayment() {
+      if (addresses.length === 0) { showToast('Please add a delivery address first'); return }
+      document.getElementById('co-address-section').style.display = 'none';
+      document.getElementById('co-payment-section').style.display = 'block';
+      document.getElementById('co-step-1').className = 'checkout-step done';
+      document.getElementById('co-step-2').className = 'checkout-step active';
+    }
+    function selectPay(el, type) {
+      document.querySelectorAll('.pay-option').forEach(o => { o.classList.remove('selected'); o.querySelector('input').checked = false });
+      el.classList.add('selected'); el.querySelector('input').checked = true;
+      document.getElementById('upi-input').style.display = 'none';
+      document.getElementById('credit-inputs').style.display = 'none';
+      document.getElementById('debit-inputs').style.display = 'none';
+      if (type === 'upi') document.getElementById('upi-input').style.display = 'block';
+      else if (type === 'credit') document.getElementById('credit-inputs').style.display = 'block';
+      else if (type === 'debit') document.getElementById('debit-inputs').style.display = 'block';
+    }
+    function formatCard(el) { let v = el.value.replace(/\D/g, '').substring(0, 16); el.value = v.replace(/(.{4})/g, '$1 ').trim() }
+    function placeOrder() {
+      document.getElementById('co-payment-section').style.display = 'none';
+      document.getElementById('co-success-section').style.display = 'block';
+      document.getElementById('co-step-2').className = 'checkout-step done';
+      document.getElementById('co-step-3').className = 'checkout-step active';
+      showToast('Order placed successfully! 🎉');
+    }
+
+    // ─────────── SELL ───────────
+    function handleImgUpload(input) {
+      const files = Array.from(input.files);
+      const prev = document.getElementById('preview-imgs');
+      files.forEach(file => {
+        const reader = new FileReader();
+        reader.onload = e => {
+          const img = document.createElement('img');
+          img.src = e.target.result;
+          img.className = 'preview-img';
+          prev.appendChild(img);
+        };
+        reader.readAsDataURL(file);
+      });
+    }
+    const SELL_FORM_CONFIG = {
+      electronics: [
+        { id: 'sub', label: 'Type', type: 'select', options: ['Mobiles', 'Laptops', 'Tablets', 'Gaming', 'Audio', 'Cameras'] },
+        { id: 'specs', label: 'Specs / Model Details', type: 'text', placeholder: 'e.g. 8GB RAM, 128GB, Model No.' },
+        { id: 'cond', label: 'Condition', type: 'select', options: ['Like New', 'Good', 'Fair', 'For Parts'] }
+      ],
+      cars: [
+        { id: 'sub', label: 'Body Type', type: 'select', options: ['Sedan', 'SUV', 'Hatchback', 'Luxury', 'Commercial', 'MUV'] },
+        { id: 'specs', label: 'KM Driven', type: 'text', placeholder: 'e.g. 42,000 km' },
+        { id: 'year', label: 'Year of Manufacture', type: 'text', placeholder: 'e.g. 2019' },
+        { id: 'fuel', label: 'Fuel Type', type: 'select', options: ['Petrol', 'Diesel', 'CNG', 'Electric', 'Hybrid'] },
+        { id: 'cond', label: 'Condition', type: 'select', options: ['Like New', 'Good', 'Fair'] }
+      ],
+      bikes: [
+        { id: 'sub', label: 'Bike Type', type: 'select', options: ['Motorcycles', 'Scooters', 'Electric', 'Sports', 'Cruiser'] },
+        { id: 'specs', label: 'KM Driven', type: 'text', placeholder: 'e.g. 15,000 km' },
+        { id: 'year', label: 'Year of Manufacture', type: 'text', placeholder: 'e.g. 2021' },
+        { id: 'cond', label: 'Condition', type: 'select', options: ['Like New', 'Good', 'Fair'] }
+      ],
+      properties: [
+        { id: 'sub', label: 'Property Type', type: 'select', options: ['Apartments', 'Houses', 'Plots', 'Commercial Space', 'PG / Hostel'] },
+        { id: 'specs', label: 'Area', type: 'text', placeholder: 'e.g. 1200 sq.ft' },
+        { id: 'listing_type', label: 'Listing Type', type: 'select', options: ['For Sale', 'For Rent', 'For Lease'] },
+        { id: 'cond', label: 'Condition', type: 'select', options: ['Ready to Move', 'Under Construction', 'Needs Renovation'] }
+      ],
+      furniture: [
+        { id: 'sub', label: 'Furniture Type', type: 'select', options: ['Sofas', 'Beds', 'Tables', 'Chairs', 'Wardrobes', 'Other'] },
+        { id: 'specs', label: 'Dimensions / Material', type: 'text', placeholder: 'e.g. 6x4 ft, Sheesham wood' },
+        { id: 'cond', label: 'Condition', type: 'select', options: ['Like New', 'Good', 'Fair'] }
+      ]
+    };
+    function renderSellFields() {
+      const cat = document.getElementById('sell-category').value;
+      const wrap = document.getElementById('sell-dynamic-fields');
+      const fields = SELL_FORM_CONFIG[cat] || [];
+      wrap.innerHTML = fields.map(f => `
+        <div class="form-group">
+          <label class="form-label">${f.label}</label>
+          ${f.type === 'select'
+          ? `<select class="form-select" id="sell-${f.id}"><option value="">Select ${f.label.toLowerCase()}</option>${f.options.map(o => `<option value="${o}">${o}</option>`).join('')}</select>`
+          : `<input type="text" id="sell-${f.id}" class="form-input" placeholder="${f.placeholder || ''}">`}
+          <div class="form-error" id="err-${f.id}"></div>
+        </div>
+      `).join('');
+    }
+    function submitListing() {
+      if (!user) { openModal('auth-modal'); return }
+      let ok = true;
+      document.querySelectorAll('.form-error').forEach(e => e.textContent = '');
+      const title = document.getElementById('sell-title').value.trim();
+      const price = parseInt(document.getElementById('sell-price').value);
+      const cond = document.getElementById('sell-condition').value;
+      const cat = document.getElementById('sell-category').value;
+      const place = document.getElementById('sell-place').value.trim();
+      const dynamicFields = SELL_FORM_CONFIG[cat] || [];
+      const dynamicData = {};
+      if (!title) { document.getElementById('err-title').textContent = 'Please enter a title'; ok = false }
+      if (!price || price < 1) { document.getElementById('err-price').textContent = 'Please enter a valid price'; ok = false }
+      if (!cond) { document.getElementById('err-cond').textContent = 'Please select condition'; ok = false }
+      if (!cat) { document.getElementById('err-cat').textContent = 'Please select a category'; ok = false }
+      if (!place) { document.getElementById('err-place').textContent = 'Please enter location'; ok = false }
+      dynamicFields.forEach(f => {
+        const val = (document.getElementById('sell-' + f.id)?.value || '').trim();
+        dynamicData[f.id] = val;
+        if (!val) { const err = document.getElementById('err-' + f.id); if (err) err.textContent = `Please enter ${f.label.toLowerCase()}`; ok = false; }
+      });
+      if (!ok) return;
+      const prevImgs = document.querySelectorAll('#preview-imgs img');
+      const uploadedImg = prevImgs.length > 0 ? prevImgs[0].src : null;
+      const listing = {
+        id: 'ul-' + Date.now(),
+        title, price,
+        orig: Math.round(price * 1.6),
+        cat,
+        cond,
+        place,
+        time: 'Just now',
+        desc: document.getElementById('sell-desc').value.trim(),
+        badge: 'new',
+        sub: dynamicData.sub || '',
+        specs: dynamicData.specs || '',
+        seller: 0,
+        uploadedImg,
+        sellerUser: user.name,
+      };
+      userListings.push(listing);
+      setLS('olx_listings', userListings);
+      showToast('Listing published! 🎉');
+      document.getElementById('sell-title').value = '';
+      document.getElementById('sell-desc').value = '';
+      document.getElementById('sell-price').value = '';
+      document.getElementById('sell-condition').value = '';
+      document.getElementById('sell-category').value = '';
+      document.getElementById('sell-place').value = '';
+      document.getElementById('preview-imgs').innerHTML = '';
+      document.getElementById('sell-dynamic-fields').innerHTML = '';
+      showPage('home');
+    }
+
+    // ─────────── PROFILE ───────────
+
+    function renderProfile() {
+      if (!user) { showPage('home'); openModal('auth-modal'); return }
+      const initials = user.name.split(' ').map(n => n[0]).join('').toUpperCase();
+      document.getElementById('profile-header-content').innerHTML = `
+    <div class="profile-avatar">${initials}</div>
+    <div>
+      <div class="profile-name">${user.name}</div>
+      <div class="profile-join">Member since ${user.joined || '2024'} · ${user.city || 'India'}</div>
+      <div class="profile-stats">
+        <div class="profile-stat"><strong>${userListings.length}</strong><span>Listings</span></div>
+        <div class="profile-stat"><strong>0</strong><span>Orders</span></div>
+        <div class="profile-stat"><strong>${favourites.length}</strong><span>Saved</span></div>
+        <div class="profile-stat"><strong>4.8★</strong><span>Rating</span></div>
+      </div>
+    </div>`;
+      document.getElementById('user-listings-grid').innerHTML =
+        userListings.length > 0 ? userListings.map(p => productCardHTML(p)).join('') :
+          '<p style="color:var(--gray-400);font-size:13px;padding:24px 0">No listings yet. <span style="text-decoration:underline;cursor:pointer" onclick="handleSellClick()">Sell your first item →</span></p>';
+      const favAll = getAllProducts().filter(p => favourites.includes(p.id));
+      document.getElementById('user-favs-grid').innerHTML =
+        favAll.length > 0 ? favAll.map(p => productCardHTML(p)).join('') :
+          '<p style="color:var(--gray-400);font-size:13px;padding:24px 0">No favourites saved yet.</p>';
+      // Render orders — empty state
+      const ordersEl = document.getElementById('orders-list');
+      if (ordersEl) {
+        ordersEl.innerHTML = '<p style="color:var(--gray-400);font-size:13px;padding:24px 0">No orders yet. <span style="text-decoration:underline;cursor:pointer" onclick="showPage(\'home\')">Browse listings →</span></p>';
+      }
+      if (document.getElementById('edit-name')) document.getElementById('edit-name').value = user.name || '';
+      if (document.getElementById('edit-email')) document.getElementById('edit-email').value = user.email || '';
+      if (document.getElementById('edit-phone')) document.getElementById('edit-phone').value = user.phone || '';
+      if (document.getElementById('edit-city')) document.getElementById('edit-city').value = user.city || '';
+      renderAddressList();
+    }
+    function switchProfileTab(btn, tab) {
+      document.querySelectorAll('.profile-tab').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      document.querySelectorAll('.profile-section').forEach(s => s.classList.remove('active'));
+      document.getElementById('profile-' + tab).classList.add('active');
+    }
+    function saveProfile() {
+      const name = document.getElementById('edit-name').value.trim();
+      const email = document.getElementById('edit-email').value.trim();
+      const phone = document.getElementById('edit-phone').value.trim();
+      const city = document.getElementById('edit-city').value.trim();
+      let ok = true;
+      document.getElementById('err-email').textContent = '';
+      document.getElementById('err-phone').textContent = '';
+      if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { document.getElementById('err-email').textContent = 'Enter a valid email'; ok = false }
+      if (phone && !/^[6-9]\d{9}$/.test(phone)) { document.getElementById('err-phone').textContent = 'Enter a valid 10-digit number'; ok = false }
+      if (!ok) return;
+      user = { ...user, name, email, phone, city };
+      setLS('olx_user', user);
+      showToast('Profile updated ✓');
+      renderProfile();
+    }
+    function renderAddressList() {
+      const list = document.getElementById('addresses-list');
+      if (!list) return;
+      if (addresses.length === 0) { list.innerHTML = '<p style="font-size:13px;color:var(--gray-400);margin-bottom:12px">No saved addresses.</p>'; return }
+      list.innerHTML = addresses.map((a, i) => `
+    <div class="addr-card">
+      <div class="addr-card-info">
+        <div class="addr-card-name">${a.name}</div>
+        <div class="addr-card-text">${a.line1}${a.line2 ? ', ' + a.line2 : ''}<br>${a.city}, ${a.state} — ${a.pin}</div>
+      </div>
+      <div class="addr-card-actions">
+        <button class="link-btn" onclick="deleteAddr(${i})">Remove</button>
+      </div>
+    </div>`).join('');
+    }
+    function deleteAddr(i) { addresses.splice(i, 1); setLS('olx_addresses', addresses); renderAddressList(); showToast('Address removed') }
+    function showAddAddrModal() { openModal('addr-modal') }
+    function saveAddress() {
+      const name = document.getElementById('addr-name').value.trim();
+      const line1 = document.getElementById('addr-line1').value.trim();
+      const city = document.getElementById('addr-city').value.trim();
+      const state_ = document.getElementById('addr-state').value.trim();
+      const pin = document.getElementById('addr-pin').value.trim();
+      document.getElementById('err-pin').textContent = '';
+      if (!/^\d{6}$/.test(pin)) { document.getElementById('err-pin').textContent = 'Enter a valid 6-digit PIN code'; return }
+      if (!name || !line1 || !city || !state_) { showToast('Please fill all required fields'); return }
+      const addr = { id: 'a' + Date.now(), name, line1, line2: document.getElementById('addr-line2').value.trim(), city, state: state_, pin };
+      addresses.push(addr);
+      setLS('olx_addresses', addresses);
+      closeModal('addr-modal');
+      renderAddressList();
+      if (document.getElementById('checkout-addresses')) document.getElementById('checkout-addresses').innerHTML = renderAddrOptions();
+      showToast('Address saved ✓');
+      ['addr-name', 'addr-line1', 'addr-line2', 'addr-city', 'addr-state', 'addr-pin'].forEach(id => document.getElementById(id).value = '');
+    }
+
+    // ─────────── CHAT ───────────
+    const CHAT_CONVOS = [
+      {
+        id: 0, name: 'Aanya Mehta', avatar: 'AM', avatarColor: '#f0c4b8', online: true, item: 'Oversized Beige Hoodie', productId: 'p1', msgs: [
+          { t: 'received', text: 'Hi! Is this still available?', time: '2:14 PM' },
+          { t: 'sent', text: 'Yes, it\'s available! Just listed it yesterday.', time: '2:15 PM' },
+          { t: 'received', text: 'Great! Can you do ₹700 for it?', time: '2:17 PM' },
+          { t: 'sent', text: 'I can do ₹750 — it\'s barely worn once.', time: '2:18 PM' },
+          { t: 'received', text: 'Deal! I\'ll buy it now 🎉', time: '2:19 PM' },
+        ]
+      },
+      {
+        id: 1, name: 'Rohan Kapoor', avatar: 'RK', avatarColor: '#c4d4b8', online: false, item: 'Vintage Levi\'s Jacket', productId: 'p2', msgs: [
+          { t: 'received', text: 'Hey, does this jacket fit a size 38 chest?', time: 'Yesterday' },
+          { t: 'sent', text: 'It runs a bit large so it should work for a 38!', time: 'Yesterday' },
+          { t: 'received', text: 'Perfect. What\'s your location? I\'m in Delhi too.', time: 'Yesterday' },
+        ]
+      },
+      {
+        id: 2, name: 'Priya Sharma', avatar: 'PS', avatarColor: '#d4c8e8', online: true, item: 'Nike Air Force 1 Sneakers', productId: 'p3', msgs: [
+          { t: 'received', text: 'What size are these?', time: 'Mon' },
+          { t: 'sent', text: 'UK 9 / US 10.', time: 'Mon' },
+          { t: 'received', text: 'Do you have any photos of the soles?', time: 'Mon' },
+          { t: 'sent', text: 'Just uploaded more photos — check the listing!', time: 'Mon' },
+        ]
+      },
+      {
+        id: 3, name: 'Arjun Nair', avatar: 'AN', avatarColor: '#e8dcc8', online: false, item: 'Fossil Minimalist Watch', productId: 'p15', msgs: [
+          { t: 'received', text: 'Is the watch battery working fine?', time: 'Sun' },
+          { t: 'sent', text: 'Yes! Replaced it 6 months ago, keeps perfect time.', time: 'Sun' },
+          { t: 'received', text: 'Any scratches on the glass?', time: 'Sun' },
+          { t: 'sent', text: 'Tiny hairline on the case back, face is clean.', time: 'Sun' },
+        ]
+      },
+      {
+        id: 4, name: 'Divya Iyer', avatar: 'DI', avatarColor: '#c4d4b8', online: false, item: 'Silk Printed Kurta Set', productId: 'p7', msgs: [
+          { t: 'received', text: 'Is the colour exactly as in the photo?', time: 'Sat' },
+          { t: 'sent', text: 'Yes, it\'s a vibrant teal — photos are accurate.', time: 'Sat' },
+          { t: 'received', text: 'Can you ship to Pune?', time: 'Sat' },
+          { t: 'sent', text: 'Absolutely! Bluedart delivers there in 2–3 days.', time: 'Sat' },
+          { t: 'received', text: 'Perfect, placing the order now! 😊', time: 'Sat' },
+        ]
+      },
+      {
+        id: 5, name: 'Nikhil Jain', avatar: 'NJ', avatarColor: '#f0c4b8', online: false, item: 'Retro Round Sunglasses', productId: 'p12', msgs: [
+          { t: 'received', text: 'Are these UV400 certified?', time: 'Fri' },
+          { t: 'sent', text: 'Yes! UV400 lenses, came from a boutique in Goa.', time: 'Fri' },
+          { t: 'received', text: 'Can you do ₹300?', time: 'Fri' },
+          { t: 'sent', text: 'Best I can do is ₹320, they\'re in mint condition.', time: 'Fri' },
+        ]
+      },
+      {
+        id: 6, name: 'Sneha Reddy', avatar: 'SR', avatarColor: '#e8dcc8', online: true, item: 'Floral Midi Wrap Dress', productId: 'p5', msgs: [
+          { t: 'received', text: 'Is this true to size for a UK 8?', time: 'Thu' },
+          { t: 'sent', text: 'Yes, fits great for a UK 8. It\'s adjustable at the waist too.', time: 'Thu' },
+          { t: 'received', text: 'Love it! Can you hold for 2 days?', time: 'Thu' },
+          { t: 'sent', text: 'Sure, I\'ll mark it on hold for you.', time: 'Thu' },
+          { t: 'received', text: 'Thank you so much! 🙏', time: 'Thu' },
+        ]
+      },
+      {
+        id: 7, name: 'Kabir Verma', avatar: 'KV', avatarColor: '#d4c8e8', online: false, item: 'Minimalist Leather Crossbody Bag', productId: 'p8', msgs: [
+          { t: 'received', text: 'How big is the bag? Can it fit a small notebook?', time: 'Wed' },
+          { t: 'sent', text: 'It\'s about 28×20cm, should fit an A5 notebook easily.', time: 'Wed' },
+          { t: 'received', text: 'And the strap — is it adjustable?', time: 'Wed' },
+          { t: 'sent', text: 'Yes, fully adjustable from shoulder to crossbody length.', time: 'Wed' },
+        ]
+      },
+    ];
+
+    function renderChat() {
+      const list = document.getElementById('chat-list-items');
+      if (!list) return;
+      renderChatList();
+      // On mobile: show list first, not the convo
+      if (window.innerWidth <= 900) {
+        document.getElementById('chat-list-panel').classList.remove('mob-hidden');
+        document.getElementById('chat-main-panel').classList.remove('mob-active');
+      } else {
+        openChatConvo(state.chatActive);
+      }
+    }
+    function openChatConvo(i) {
+      state.chatActive = i;
+      const c = CHAT_CONVOS[i];
+      // Mobile: switch to chat panel
+      if (window.innerWidth <= 900) {
+        document.getElementById('chat-list-panel').classList.add('mob-hidden');
+        document.getElementById('chat-main-panel').classList.add('mob-active');
+      }
+      document.getElementById('chat-header').innerHTML = `
+    <div class="chat-header-avatar" style="background:${c.avatarColor || '#e8e6e0'}">${c.avatar}</div>
+    <div style="flex:1;min-width:0">
+      <div class="chat-header-name">${c.name}</div>
+      <div class="chat-header-sub">${c.online ? '<span class="chat-header-status">\u25cf Active now</span>' : '<span style="color:var(--gray-400)">\u25cf Last seen recently</span>'} &nbsp;&middot;&nbsp; re: ${c.item}</div>
+    </div>
+    <button style="background:none;border:1px solid var(--gray-100);border-radius:100px;padding:6px 14px;font-size:12px;cursor:pointer;font-family:var(--font-body);color:var(--gray-400)" onclick="openProduct('${c.productId || 'p1'}')">View item</button>
+  `;
+      const msgs = c.msgs;
+      let html = '<div class="chat-date-divider">Today</div>';
+      msgs.forEach((m, idx) => {
+        const prevSame = idx > 0 && msgs[idx - 1].t === m.t;
+        const isLast = idx === msgs.length - 1 || msgs[idx + 1].t !== m.t;
+        if (!prevSame) html += `<div class="msg-group ${m.t === 'sent' ? 'sent-group' : 'received-group'}">`;
+        html += `<div class="msg ${m.t}">${m.text}</div>`;
+        if (isLast) html += `<div class="msg-time ${m.t === 'sent' ? 'right' : ''}">${m.time}</div></div>`;
+      });
+      document.getElementById('chat-messages').innerHTML = html;
+      document.querySelectorAll('.chat-item').forEach((el, j) => { el.classList.toggle('active', j === i) });
+      const msgsEl = document.getElementById('chat-messages');
+      setTimeout(() => { msgsEl.scrollTop = msgsEl.scrollHeight }, 50);
+    }
+    function mobChatBack() {
+      document.getElementById('chat-list-panel').classList.remove('mob-hidden');
+      document.getElementById('chat-main-panel').classList.remove('mob-active');
+    }
+    function sendMsg() {
+      const inp = document.getElementById('chat-input');
+      const text = inp.value.trim();
+      if (!text) return;
+      const c = CHAT_CONVOS[state.chatActive];
+      c.msgs.push({ t: 'sent', text, time: new Date().toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' }) });
+      inp.value = '';
+      openChatConvo(state.chatActive);
+      renderChatList();
+      setTimeout(() => {
+        const replies = ['Sure thing!', 'Let me check.', 'That sounds good 👍', 'One moment please.', 'Can we meet at 5 PM?', 'I can offer a small discount!', 'Yes, still available.', 'Happy to help 😊', 'Sounds perfect!', 'I\'ll get back to you shortly.', 'Could you share your city?'];
+        c.msgs.push({ t: 'received', text: replies[Math.floor(Math.random() * replies.length)], time: new Date().toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' }) });
+        openChatConvo(state.chatActive);
+        renderChatList();
+      }, 1200);
+    }
+    function renderChatList() {
+      const list = document.getElementById('chat-list-items');
+      if (!list) return;
+      list.innerHTML = CHAT_CONVOS.map((c, i) => `
+    <div class="chat-item ${i === state.chatActive ? 'active' : ''}" onclick="openChatConvo(${i})">
+      <div class="chat-item-avatar-wrap">
+        <div class="chat-item-avatar" style="background:${c.avatarColor || '#e8e6e0'}">${c.avatar}</div>
+        ${c.online ? '<div class="chat-item-online-dot"></div>' : ''}
+      </div>
+      <div class="chat-item-info">
+        <div class="chat-item-row"><div class="chat-item-name">${c.name}</div><div class="chat-item-time">${c.msgs[c.msgs.length - 1].time}</div></div>
+        <div class="chat-item-preview">${c.msgs[c.msgs.length - 1].text}</div>
+        <div class="chat-item-item-tag">re: ${c.item}</div>
+      </div>
+    </div>`).join('');
+    }
+
+    // ─────────── SELLER PROFILE ───────────
+    const SELLER_REVIEWS = [
+      [{ reviewer: 'Rohan K.', stars: 5, text: 'Super smooth transaction! Item was exactly as described. Would buy again.' },
+      { reviewer: 'Priya S.', stars: 5, text: 'Very responsive and fast delivery. Great seller!' },
+      { reviewer: 'Arjun N.', stars: 4, text: 'Good condition item, slight delay in response but overall great.' }],
+      [{ reviewer: 'Sneha R.', stars: 5, text: 'Honest seller, item in perfect shape. Highly recommend.' },
+      { reviewer: 'Nikhil J.', stars: 4, text: 'Fair deal, easy meetup. No complaints.' }],
+      [{ reviewer: 'Aanya M.', stars: 5, text: 'Packed beautifully, arrived fast. 10/10!' },
+      { reviewer: 'Kabir V.', stars: 5, text: 'Genuine listing, price was fair. Great experience.' },
+      { reviewer: 'Divya I.', stars: 5, text: 'Best seller I have dealt with. Super professional.' }],
+      [{ reviewer: 'Priya S.', stars: 4, text: 'Good seller, slight negotiation needed but fair.' },
+      { reviewer: 'Rohan K.', stars: 5, text: 'Item delivered in perfect condition. Very happy.' }],
+      [{ reviewer: 'Sneha R.', stars: 5, text: 'Highly trustworthy, great pricing and communication.' },
+      { reviewer: 'Aanya M.', stars: 4, text: 'Responsive and helpful. Item as described.' },
+      { reviewer: 'Arjun N.', stars: 5, text: 'Quick deal, no hassle. Would recommend.' }],
+      [{ reviewer: 'Kabir V.', stars: 4, text: 'Decent seller. Could respond faster but overall fine.' },
+      { reviewer: 'Divya I.', stars: 5, text: 'Smooth process, item arrived quickly.' }],
+      [{ reviewer: 'Nikhil J.', stars: 5, text: 'Very reliable. The sofa was in great shape!' },
+      { reviewer: 'Rohan K.', stars: 4, text: 'Good quality, slight delay but worth it.' }],
+      [{ reviewer: 'Priya S.', stars: 4, text: 'Fair deal. Item as advertised. No issues.' },
+      { reviewer: 'Aanya M.', stars: 5, text: 'Super helpful seller, item was perfect.' }]
+    ];
+
+    function openSellerProfile(sellerIdx) {
+      const seller = SELLERS[sellerIdx] || SELLERS[0];
+      const all = getAllProducts();
+      const sellerProducts = all.filter(p => p.seller === sellerIdx);
+      const reviews = SELLER_REVIEWS[sellerIdx] || SELLER_REVIEWS[0];
+      const stars = '\u2605'.repeat(Math.floor(seller.rating)) + '\u2606'.repeat(5 - Math.floor(seller.rating));
+      const avatarColors = ['#f0c4b8', '#c4d4b8', '#d4c8e8', '#e8dcc8', '#c4d4c8', '#e8c4b8', '#d4e8c4', '#c8d4e8'];
+      const avatarColor = avatarColors[sellerIdx % avatarColors.length];
+
+      document.getElementById('seller-page-header').innerHTML = `
+        <div class="seller-page-avatar" style="background:${avatarColor}">${seller.avatar}</div>
+        <div style="flex:1">
+          <div class="seller-verified-badge">✓ Verified Seller</div>
+          <div class="seller-page-name">${seller.name}</div>
+          <div class="seller-page-meta">📍 ${seller.city} &nbsp;&middot;&nbsp; Member since 2023</div>
+          <div class="seller-page-stats">
+            <div class="seller-page-stat"><strong>${seller.rating}\u2605</strong><span>Rating</span></div>
+            <div class="seller-page-stat"><strong>${seller.sales}</strong><span>Sales</span></div>
+            <div class="seller-page-stat"><strong>${sellerProducts.length}</strong><span>Listings</span></div>
+            <div class="seller-page-stat"><strong>98%</strong><span>Response</span></div>
+          </div>
+        </div>
+        <button class="btn-chat" style="padding:12px 24px;font-size:13px;flex-shrink:0" onclick="chatWithSeller('${seller.name}')">\ud83d\udcac Message ${seller.name.split(' ')[0]}</button>
+        <button onclick="reportSeller('${seller.name}')" style="background:none;border:1px solid #e05050;color:#e05050;border-radius:100px;padding:10px 18px;font-size:12px;cursor:pointer;font-family:var(--font-body);font-weight:500;flex-shrink:0">⚠ Report</button>
+      `;
+
+      document.getElementById('seller-listings-grid').innerHTML =
+        sellerProducts.length > 0 ? sellerProducts.map(p => productCardHTML(p)).join('') :
+          '<p style="color:var(--gray-400);font-size:13px">No active listings at the moment.</p>';
+
+      document.getElementById('seller-ratings-panel').innerHTML = `
+        <div style="background:var(--gray-50);border-radius:var(--radius);padding:24px;position:sticky;top:calc(var(--nav-h) + 24px)">
+          <p style="font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--gray-400);margin-bottom:16px">Seller Ratings</p>
+          <div class="seller-rating-bar">
+            <div class="seller-big-rating">${seller.rating}</div>
+            <div>
+              <div style="font-size:20px;color:#f0a030;letter-spacing:1px">${stars}</div>
+              <div style="font-size:12px;color:var(--gray-400);margin-top:2px">${reviews.length} reviews</div>
+            </div>
+          </div>
+          <div class="pd-divider"></div>
+          ${reviews.map(r => `<div class="seller-review-card">
+            <div class="seller-review-top">
+              <span style="font-weight:500;color:var(--black)">${r.reviewer}</span>
+              <span style="color:#f0a030">${'\u2605'.repeat(r.stars)}${'\u2606'.repeat(5 - r.stars)}</span>
+            </div>
+            <div class="seller-review-text">${r.text}</div>
+          </div>`).join('')}
+        </div>
+      `;
+
+      showPage('seller');
+    }
+
+    // ─────────── REPORT SELLER ───────────
+    let reportTargetSeller = '';
+    function reportSeller(name) {
+      reportTargetSeller = name;
+      document.querySelectorAll('input[name="report-reason"]').forEach(r => r.checked = false);
+      const ta = document.getElementById('report-details');
+      if (ta) ta.value = '';
+      openModal('report-modal');
+    }
+    function submitReport() {
+      const reason = document.querySelector('input[name="report-reason"]:checked')?.value;
+      if (!reason) { showToast('Please select a reason'); return; }
+      closeModal('report-modal');
+      showToast(`Report submitted for ${reportTargetSeller}. Our team will review it. ✓`);
+    }
+
+    // ─────────── TOAST ───────────
+    function showToast(msg) {
+      const t = document.getElementById('toast');
+      t.textContent = msg;
+      t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 2500);
+    }
+
+    // ─────────── CHAT WITH SELLER ───────────
+    function chatWithSeller(sellerName) {
+      // Match seller name to a SELLERS entry to get their avatar info
+      const sellerObj = SELLERS.find(s => s.name === sellerName);
+      // Find existing conversation with this seller
+      let idx = CHAT_CONVOS.findIndex(c => c.name === sellerName);
+      if (idx < 0) {
+        // Create a new convo for this seller dynamically
+        const product = state.currentProduct;
+        const avatarColors = ['#f0c4b8', '#c4d4b8', '#d4c8e8', '#e8dcc8'];
+        const newConvo = {
+          id: CHAT_CONVOS.length,
+          name: sellerName,
+          avatar: sellerObj ? sellerObj.avatar : sellerName.split(' ').map(n => n[0]).join(''),
+          avatarColor: avatarColors[CHAT_CONVOS.length % avatarColors.length],
+          online: Math.random() > 0.5,
+          item: product ? product.title : 'Item',
+          productId: product ? product.id : 'p1',
+          msgs: [
+            { t: 'received', text: `Hi! Thanks for reaching out about the ${product ? product.title : 'item'}. How can I help?`, time: new Date().toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' }) }
+          ]
+        };
+        CHAT_CONVOS.push(newConvo);
+        idx = CHAT_CONVOS.length - 1;
+      }
+      state.chatActive = idx;
+      showPage('chat');
+    }
+
+    // ─────────── INIT ───────────
+    function applyImageConfig() {
+      const heroSlot = document.getElementById('hero-image-slot');
+      if (heroSlot && IMAGE_URLS.hero) {
+        heroSlot.style.backgroundImage = `linear-gradient(135deg, rgba(10, 10, 8, .85) 0%, rgba(20, 20, 18, .70) 50%, rgba(10, 10, 8, .88) 100%), url('${IMAGE_URLS.hero}')`;
+        heroSlot.style.backgroundSize = 'cover';
+        heroSlot.style.backgroundPosition = 'center';
+      }
+      document.querySelectorAll('[data-cat-image]').forEach(el => {
+        const cat = el.getAttribute('data-cat-image');
+        const url = IMAGE_URLS.categories[cat];
+        if (url) {
+          el.style.backgroundImage = `url('${url}')`;
+          el.style.backgroundSize = 'cover';
+          el.style.backgroundPosition = 'center';
+        }
+      });
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      applyImageConfig();
+      updateFavBadge();
+      updateNavUser();
+      renderSellFields();
+      renderGrid();
+      // Close mega menu on outside click
+      document.addEventListener('click', e => {
+        if (!e.target.closest('.nav-cat-wrap')) document.querySelectorAll('.mega-menu').forEach(m => m.classList.remove('open'));
+      });
+      document.querySelectorAll('.modal-overlay').forEach(overlay => {
+        overlay.addEventListener('click', e => { if (e.target === overlay) overlay.classList.remove('open') });
+      });
+    });
+  </script>
+</body>
+
+</html>
